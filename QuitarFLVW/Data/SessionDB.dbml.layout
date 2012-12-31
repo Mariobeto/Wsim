@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SessionDB">
+  <DataContextMoniker Name="/SessionDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="738a9423-1541-4866-9ee0-ee8f72308398" absoluteBounds="0.75, 1, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/SessionDBDataContext/USER" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bea5eb3f-e528-45be-aa45-9d1a68b13703" absoluteBounds="0.765, 1.46, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5e09b792-e046-4507-ba48-9c166ef7b88e" absoluteBounds="4.375, 1.5, 2, 1.3862939453125">
+      <DataClassMoniker Name="/SessionDBDataContext/TRAINING" />
+      <nestedChildShapes>
+        <elementListCompartment Id="822215fb-1acc-430d-8bce-616e0595ad01" absoluteBounds="4.39, 1.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 2.19314697265625); (4.375 : 2.19314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SessionDBDataContext/USER/USER_TRAINING" />
+      <nodes>
+        <classShapeMoniker Id="738a9423-1541-4866-9ee0-ee8f72308398" />
+        <classShapeMoniker Id="5e09b792-e046-4507-ba48-9c166ef7b88e" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
