@@ -22,6 +22,6 @@ function fuTrainOnSuccessCallBack(args) {
         ShowMessageBox("Wsim", "Entreno correctamente vuelva mañana para volver a entrenar");
     }
     else {
-        ShowMessageBox("Wsim", "Ya entreno por el dia de hoy comandante, cada dia se puede entrenar");
+        ShowMessageBox("Wsim", "Ya entreno por el dia de hoy comandante, se puede entrenar 1 vez cada 24 horas");
     }
 }

@@ -190,6 +190,7 @@
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+    <Content Include="App_Code\BasePage.cs" />
     <Compile Include="Data\SessionDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -251,6 +252,15 @@
     <None Include="Data\SessionDB.dbml.layout">
       <DependentUpon>SessionDB.dbml</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\wsimResources.aspx.en-US.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\wsimResources.aspx.es-MX.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\wsimResources.aspx.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
