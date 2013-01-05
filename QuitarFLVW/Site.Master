@@ -39,6 +39,21 @@
             </div>
         </div>
         <div class="main">
+            <%--<asp:Repeater ID="Repeater1" runat="server">
+                <HeaderTemplate>
+                <table border="1">
+                <tr>
+                <td><b>Company</b></td>
+                <td><b>Symbol</b></td>
+                </tr>
+                </HeaderTemplate>
+
+                <ItemTemplate>
+                <tr>
+                <td> <%# DataBinder.Eval(Container.DataItem, "Name") %> </td>
+                <td> <%# DataBinder.Eval(Container.DataItem, "Ticker") %> </td>
+                </tr>
+            </asp:Repeater>--%>
             <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
         </div>
         <div class="clear">

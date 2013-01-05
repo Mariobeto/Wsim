@@ -30,16 +30,34 @@ namespace QuitarFLVW.Data
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertUSER(USER instance);
-    partial void UpdateUSER(USER instance);
-    partial void DeleteUSER(USER instance);
-    partial void InsertTRAINING(TRAINING instance);
-    partial void UpdateTRAINING(TRAINING instance);
-    partial void DeleteTRAINING(TRAINING instance);
+    partial void Inserttbl_Bank(tbl_Bank instance);
+    partial void Updatetbl_Bank(tbl_Bank instance);
+    partial void Deletetbl_Bank(tbl_Bank instance);
+    partial void Inserttbl_USER(tbl_USER instance);
+    partial void Updatetbl_USER(tbl_USER instance);
+    partial void Deletetbl_USER(tbl_USER instance);
+    partial void Inserttbl_Country(tbl_Country instance);
+    partial void Updatetbl_Country(tbl_Country instance);
+    partial void Deletetbl_Country(tbl_Country instance);
+    partial void Inserttbl_Inventory(tbl_Inventory instance);
+    partial void Updatetbl_Inventory(tbl_Inventory instance);
+    partial void Deletetbl_Inventory(tbl_Inventory instance);
+    partial void Inserttbl_Item(tbl_Item instance);
+    partial void Updatetbl_Item(tbl_Item instance);
+    partial void Deletetbl_Item(tbl_Item instance);
+    partial void Inserttbl_Money_Type(tbl_Money_Type instance);
+    partial void Updatetbl_Money_Type(tbl_Money_Type instance);
+    partial void Deletetbl_Money_Type(tbl_Money_Type instance);
+    partial void Inserttbl_Region(tbl_Region instance);
+    partial void Updatetbl_Region(tbl_Region instance);
+    partial void Deletetbl_Region(tbl_Region instance);
+    partial void Inserttbl_Training(tbl_Training instance);
+    partial void Updatetbl_Training(tbl_Training instance);
+    partial void Deletetbl_Training(tbl_Training instance);
     #endregion
 		
 		public SessionDBDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["wsimConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["wsimConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -68,25 +86,289 @@ namespace QuitarFLVW.Data
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<USER> USERs
+		public System.Data.Linq.Table<tbl_Bank> tbl_Banks
 		{
 			get
 			{
-				return this.GetTable<USER>();
+				return this.GetTable<tbl_Bank>();
 			}
 		}
 		
-		public System.Data.Linq.Table<TRAINING> TRAININGs
+		public System.Data.Linq.Table<tbl_USER> tbl_USERs
 		{
 			get
 			{
-				return this.GetTable<TRAINING>();
+				return this.GetTable<tbl_USER>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Country> tbl_Countries
+		{
+			get
+			{
+				return this.GetTable<tbl_Country>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Inventory> tbl_Inventories
+		{
+			get
+			{
+				return this.GetTable<tbl_Inventory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Item> tbl_Items
+		{
+			get
+			{
+				return this.GetTable<tbl_Item>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Money_Type> tbl_Money_Types
+		{
+			get
+			{
+				return this.GetTable<tbl_Money_Type>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Region> tbl_Regions
+		{
+			get
+			{
+				return this.GetTable<tbl_Region>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Training> tbl_Trainings
+		{
+			get
+			{
+				return this.GetTable<tbl_Training>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.USERS")]
-	public partial class USER : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Bank")]
+	public partial class tbl_Bank : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Bank_ID;
+		
+		private int _User_ID;
+		
+		private int _Mny_ID;
+		
+		private decimal _Bank_Quantity;
+		
+		private EntityRef<tbl_USER> _tbl_USER;
+		
+		private EntityRef<tbl_Money_Type> _tbl_Money_Type;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBank_IDChanging(int value);
+    partial void OnBank_IDChanged();
+    partial void OnUser_IDChanging(int value);
+    partial void OnUser_IDChanged();
+    partial void OnMny_IDChanging(int value);
+    partial void OnMny_IDChanged();
+    partial void OnBank_QuantityChanging(decimal value);
+    partial void OnBank_QuantityChanged();
+    #endregion
+		
+		public tbl_Bank()
+		{
+			this._tbl_USER = default(EntityRef<tbl_USER>);
+			this._tbl_Money_Type = default(EntityRef<tbl_Money_Type>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Bank_ID
+		{
+			get
+			{
+				return this._Bank_ID;
+			}
+			set
+			{
+				if ((this._Bank_ID != value))
+				{
+					this.OnBank_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Bank_ID = value;
+					this.SendPropertyChanged("Bank_ID");
+					this.OnBank_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
+		public int User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					if (this._tbl_USER.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUser_IDChanging(value);
+					this.SendPropertyChanging();
+					this._User_ID = value;
+					this.SendPropertyChanged("User_ID");
+					this.OnUser_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mny_ID", DbType="Int NOT NULL")]
+		public int Mny_ID
+		{
+			get
+			{
+				return this._Mny_ID;
+			}
+			set
+			{
+				if ((this._Mny_ID != value))
+				{
+					if (this._tbl_Money_Type.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMny_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Mny_ID = value;
+					this.SendPropertyChanged("Mny_ID");
+					this.OnMny_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_Quantity", DbType="Money NOT NULL")]
+		public decimal Bank_Quantity
+		{
+			get
+			{
+				return this._Bank_Quantity;
+			}
+			set
+			{
+				if ((this._Bank_Quantity != value))
+				{
+					this.OnBank_QuantityChanging(value);
+					this.SendPropertyChanging();
+					this._Bank_Quantity = value;
+					this.SendPropertyChanged("Bank_Quantity");
+					this.OnBank_QuantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		public tbl_USER tbl_USER
+		{
+			get
+			{
+				return this._tbl_USER.Entity;
+			}
+			set
+			{
+				tbl_USER previousValue = this._tbl_USER.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_USER.Entity = null;
+						previousValue.tbl_Banks.Remove(this);
+					}
+					this._tbl_USER.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Banks.Add(this);
+						this._User_ID = value.Usr_id;
+					}
+					else
+					{
+						this._User_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_USER");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Money_Type_tbl_Bank", Storage="_tbl_Money_Type", ThisKey="Mny_ID", OtherKey="Mny_ID", IsForeignKey=true)]
+		public tbl_Money_Type tbl_Money_Type
+		{
+			get
+			{
+				return this._tbl_Money_Type.Entity;
+			}
+			set
+			{
+				tbl_Money_Type previousValue = this._tbl_Money_Type.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Money_Type.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Money_Type.Entity = null;
+						previousValue.tbl_Banks.Remove(this);
+					}
+					this._tbl_Money_Type.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Banks.Add(this);
+						this._Mny_ID = value.Mny_ID;
+					}
+					else
+					{
+						this._Mny_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_Money_Type");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_USERS")]
+	public partial class tbl_USER : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -99,15 +381,33 @@ namespace QuitarFLVW.Data
 		
 		private System.Nullable<System.DateTime> _Usr_BirthDay;
 		
-		private System.Nullable<int> _Usr_Damage;
-		
 		private System.Nullable<int> _Usr_TotalTrainingSessions;
 		
 		private System.Nullable<int> _Usr_TotalDamageDone;
 		
-		private System.Nullable<int> _Usr_Streng;
+		private System.Nullable<int> _Usr_Strength;
 		
-		private EntityRef<TRAINING> _TRAINING;
+		private System.Nullable<int> _Usr_Citizenship;
+		
+		private System.Nullable<int> _Usr_Location;
+		
+		private System.Nullable<int> _Usr_Experience;
+		
+		private System.Nullable<double> _Usr_EconomySkill;
+		
+		private System.Nullable<int> _Usr_FoodLimit;
+		
+		private System.Nullable<int> _Usr_GiftLimit;
+		
+		private EntitySet<tbl_Bank> _tbl_Banks;
+		
+		private EntitySet<tbl_Inventory> _tbl_Inventories;
+		
+		private EntitySet<tbl_Training> _tbl_Trainings;
+		
+		private EntityRef<tbl_Country> _tbl_Country;
+		
+		private EntityRef<tbl_Region> _tbl_Region;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -121,19 +421,33 @@ namespace QuitarFLVW.Data
     partial void OnUsr_PasswordChanged();
     partial void OnUsr_BirthDayChanging(System.Nullable<System.DateTime> value);
     partial void OnUsr_BirthDayChanged();
-    partial void OnUsr_DamageChanging(System.Nullable<int> value);
-    partial void OnUsr_DamageChanged();
     partial void OnUsr_TotalTrainingSessionsChanging(System.Nullable<int> value);
     partial void OnUsr_TotalTrainingSessionsChanged();
     partial void OnUsr_TotalDamageDoneChanging(System.Nullable<int> value);
     partial void OnUsr_TotalDamageDoneChanged();
-    partial void OnUsr_StrengChanging(System.Nullable<int> value);
-    partial void OnUsr_StrengChanged();
+    partial void OnUsr_StrengthChanging(System.Nullable<int> value);
+    partial void OnUsr_StrengthChanged();
+    partial void OnUsr_CitizenshipChanging(System.Nullable<int> value);
+    partial void OnUsr_CitizenshipChanged();
+    partial void OnUsr_LocationChanging(System.Nullable<int> value);
+    partial void OnUsr_LocationChanged();
+    partial void OnUsr_ExperienceChanging(System.Nullable<int> value);
+    partial void OnUsr_ExperienceChanged();
+    partial void OnUsr_EconomySkillChanging(System.Nullable<double> value);
+    partial void OnUsr_EconomySkillChanged();
+    partial void OnUsr_FoodLimitChanging(System.Nullable<int> value);
+    partial void OnUsr_FoodLimitChanged();
+    partial void OnUsr_GiftLimitChanging(System.Nullable<int> value);
+    partial void OnUsr_GiftLimitChanged();
     #endregion
 		
-		public USER()
+		public tbl_USER()
 		{
-			this._TRAINING = default(EntityRef<TRAINING>);
+			this._tbl_Banks = new EntitySet<tbl_Bank>(new Action<tbl_Bank>(this.attach_tbl_Banks), new Action<tbl_Bank>(this.detach_tbl_Banks));
+			this._tbl_Inventories = new EntitySet<tbl_Inventory>(new Action<tbl_Inventory>(this.attach_tbl_Inventories), new Action<tbl_Inventory>(this.detach_tbl_Inventories));
+			this._tbl_Trainings = new EntitySet<tbl_Training>(new Action<tbl_Training>(this.attach_tbl_Trainings), new Action<tbl_Training>(this.detach_tbl_Trainings));
+			this._tbl_Country = default(EntityRef<tbl_Country>);
+			this._tbl_Region = default(EntityRef<tbl_Region>);
 			OnCreated();
 		}
 		
@@ -217,26 +531,6 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Damage", DbType="Int")]
-		public System.Nullable<int> Usr_Damage
-		{
-			get
-			{
-				return this._Usr_Damage;
-			}
-			set
-			{
-				if ((this._Usr_Damage != value))
-				{
-					this.OnUsr_DamageChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_Damage = value;
-					this.SendPropertyChanged("Usr_Damage");
-					this.OnUsr_DamageChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TotalTrainingSessions", DbType="Int")]
 		public System.Nullable<int> Usr_TotalTrainingSessions
 		{
@@ -277,51 +571,675 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Streng", DbType="Int")]
-		public System.Nullable<int> Usr_Streng
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Strength", DbType="Int")]
+		public System.Nullable<int> Usr_Strength
 		{
 			get
 			{
-				return this._Usr_Streng;
+				return this._Usr_Strength;
 			}
 			set
 			{
-				if ((this._Usr_Streng != value))
+				if ((this._Usr_Strength != value))
 				{
-					this.OnUsr_StrengChanging(value);
+					this.OnUsr_StrengthChanging(value);
 					this.SendPropertyChanging();
-					this._Usr_Streng = value;
-					this.SendPropertyChanged("Usr_Streng");
-					this.OnUsr_StrengChanged();
+					this._Usr_Strength = value;
+					this.SendPropertyChanged("Usr_Strength");
+					this.OnUsr_StrengthChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="USER_TRAINING", Storage="_TRAINING", ThisKey="Usr_id", OtherKey="Train_ID", IsUnique=true, IsForeignKey=false)]
-		public TRAINING TRAINING
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Citizenship", DbType="Int")]
+		public System.Nullable<int> Usr_Citizenship
 		{
 			get
 			{
-				return this._TRAINING.Entity;
+				return this._Usr_Citizenship;
 			}
 			set
 			{
-				TRAINING previousValue = this._TRAINING.Entity;
+				if ((this._Usr_Citizenship != value))
+				{
+					if (this._tbl_Country.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUsr_CitizenshipChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Citizenship = value;
+					this.SendPropertyChanged("Usr_Citizenship");
+					this.OnUsr_CitizenshipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int")]
+		public System.Nullable<int> Usr_Location
+		{
+			get
+			{
+				return this._Usr_Location;
+			}
+			set
+			{
+				if ((this._Usr_Location != value))
+				{
+					if (this._tbl_Region.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUsr_LocationChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Location = value;
+					this.SendPropertyChanged("Usr_Location");
+					this.OnUsr_LocationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Experience", DbType="Int")]
+		public System.Nullable<int> Usr_Experience
+		{
+			get
+			{
+				return this._Usr_Experience;
+			}
+			set
+			{
+				if ((this._Usr_Experience != value))
+				{
+					this.OnUsr_ExperienceChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Experience = value;
+					this.SendPropertyChanged("Usr_Experience");
+					this.OnUsr_ExperienceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Float")]
+		public System.Nullable<double> Usr_EconomySkill
+		{
+			get
+			{
+				return this._Usr_EconomySkill;
+			}
+			set
+			{
+				if ((this._Usr_EconomySkill != value))
+				{
+					this.OnUsr_EconomySkillChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_EconomySkill = value;
+					this.SendPropertyChanged("Usr_EconomySkill");
+					this.OnUsr_EconomySkillChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_FoodLimit", DbType="Int")]
+		public System.Nullable<int> Usr_FoodLimit
+		{
+			get
+			{
+				return this._Usr_FoodLimit;
+			}
+			set
+			{
+				if ((this._Usr_FoodLimit != value))
+				{
+					this.OnUsr_FoodLimitChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_FoodLimit = value;
+					this.SendPropertyChanged("Usr_FoodLimit");
+					this.OnUsr_FoodLimitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_GiftLimit", DbType="Int")]
+		public System.Nullable<int> Usr_GiftLimit
+		{
+			get
+			{
+				return this._Usr_GiftLimit;
+			}
+			set
+			{
+				if ((this._Usr_GiftLimit != value))
+				{
+					this.OnUsr_GiftLimitChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_GiftLimit = value;
+					this.SendPropertyChanged("Usr_GiftLimit");
+					this.OnUsr_GiftLimitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_Banks", ThisKey="Usr_id", OtherKey="User_ID")]
+		public EntitySet<tbl_Bank> tbl_Banks
+		{
+			get
+			{
+				return this._tbl_Banks;
+			}
+			set
+			{
+				this._tbl_Banks.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_Inventories", ThisKey="Usr_id", OtherKey="User_ID")]
+		public EntitySet<tbl_Inventory> tbl_Inventories
+		{
+			get
+			{
+				return this._tbl_Inventories;
+			}
+			set
+			{
+				this._tbl_Inventories.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Training", Storage="_tbl_Trainings", ThisKey="Usr_id", OtherKey="User_ID")]
+		public EntitySet<tbl_Training> tbl_Trainings
+		{
+			get
+			{
+				return this._tbl_Trainings;
+			}
+			set
+			{
+				this._tbl_Trainings.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_USER", Storage="_tbl_Country", ThisKey="Usr_Citizenship", OtherKey="Ctry_ID", IsForeignKey=true)]
+		public tbl_Country tbl_Country
+		{
+			get
+			{
+				return this._tbl_Country.Entity;
+			}
+			set
+			{
+				tbl_Country previousValue = this._tbl_Country.Entity;
 				if (((previousValue != value) 
-							|| (this._TRAINING.HasLoadedOrAssignedValue == false)))
+							|| (this._tbl_Country.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._TRAINING.Entity = null;
-						previousValue.USER = null;
+						this._tbl_Country.Entity = null;
+						previousValue.tbl_USERs.Remove(this);
 					}
-					this._TRAINING.Entity = value;
+					this._tbl_Country.Entity = value;
 					if ((value != null))
 					{
-						value.USER = this;
+						value.tbl_USERs.Add(this);
+						this._Usr_Citizenship = value.Ctry_ID;
 					}
-					this.SendPropertyChanged("TRAINING");
+					else
+					{
+						this._Usr_Citizenship = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_Country");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Region_tbl_USER", Storage="_tbl_Region", ThisKey="Usr_Location", OtherKey="Region_ID", IsForeignKey=true)]
+		public tbl_Region tbl_Region
+		{
+			get
+			{
+				return this._tbl_Region.Entity;
+			}
+			set
+			{
+				tbl_Region previousValue = this._tbl_Region.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Region.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Region.Entity = null;
+						previousValue.tbl_USERs.Remove(this);
+					}
+					this._tbl_Region.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_USERs.Add(this);
+						this._Usr_Location = value.Region_ID;
+					}
+					else
+					{
+						this._Usr_Location = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_Region");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_Banks(tbl_Bank entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
+		}
+		
+		private void detach_tbl_Banks(tbl_Bank entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
+		}
+		
+		private void attach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
+		}
+		
+		private void detach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
+		}
+		
+		private void attach_tbl_Trainings(tbl_Training entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
+		}
+		
+		private void detach_tbl_Trainings(tbl_Training entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Countries")]
+	public partial class tbl_Country : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Ctry_ID;
+		
+		private string _Ctry_Name;
+		
+		private EntitySet<tbl_USER> _tbl_USERs;
+		
+		private EntitySet<tbl_Region> _tbl_Regions;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCtry_IDChanging(int value);
+    partial void OnCtry_IDChanged();
+    partial void OnCtry_NameChanging(string value);
+    partial void OnCtry_NameChanged();
+    #endregion
+		
+		public tbl_Country()
+		{
+			this._tbl_USERs = new EntitySet<tbl_USER>(new Action<tbl_USER>(this.attach_tbl_USERs), new Action<tbl_USER>(this.detach_tbl_USERs));
+			this._tbl_Regions = new EntitySet<tbl_Region>(new Action<tbl_Region>(this.attach_tbl_Regions), new Action<tbl_Region>(this.detach_tbl_Regions));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ctry_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Ctry_ID
+		{
+			get
+			{
+				return this._Ctry_ID;
+			}
+			set
+			{
+				if ((this._Ctry_ID != value))
+				{
+					this.OnCtry_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Ctry_ID = value;
+					this.SendPropertyChanged("Ctry_ID");
+					this.OnCtry_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ctry_Name", DbType="VarChar(150)")]
+		public string Ctry_Name
+		{
+			get
+			{
+				return this._Ctry_Name;
+			}
+			set
+			{
+				if ((this._Ctry_Name != value))
+				{
+					this.OnCtry_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Ctry_Name = value;
+					this.SendPropertyChanged("Ctry_Name");
+					this.OnCtry_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_USER", Storage="_tbl_USERs", ThisKey="Ctry_ID", OtherKey="Usr_Citizenship")]
+		public EntitySet<tbl_USER> tbl_USERs
+		{
+			get
+			{
+				return this._tbl_USERs;
+			}
+			set
+			{
+				this._tbl_USERs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_Region", Storage="_tbl_Regions", ThisKey="Ctry_ID", OtherKey="Country_ID")]
+		public EntitySet<tbl_Region> tbl_Regions
+		{
+			get
+			{
+				return this._tbl_Regions;
+			}
+			set
+			{
+				this._tbl_Regions.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_USERs(tbl_USER entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Country = this;
+		}
+		
+		private void detach_tbl_USERs(tbl_USER entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Country = null;
+		}
+		
+		private void attach_tbl_Regions(tbl_Region entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Country = this;
+		}
+		
+		private void detach_tbl_Regions(tbl_Region entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Country = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Inventory")]
+	public partial class tbl_Inventory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Invtry_ID;
+		
+		private int _User_ID;
+		
+		private int _Invtry_Item_Quantity;
+		
+		private int _Item_ID;
+		
+		private int _Invtry_Item_Quality;
+		
+		private EntityRef<tbl_USER> _tbl_USER;
+		
+		private EntityRef<tbl_Item> _tbl_Item;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnInvtry_IDChanging(int value);
+    partial void OnInvtry_IDChanged();
+    partial void OnUser_IDChanging(int value);
+    partial void OnUser_IDChanged();
+    partial void OnInvtry_Item_QuantityChanging(int value);
+    partial void OnInvtry_Item_QuantityChanged();
+    partial void OnItem_IDChanging(int value);
+    partial void OnItem_IDChanged();
+    partial void OnInvtry_Item_QualityChanging(int value);
+    partial void OnInvtry_Item_QualityChanged();
+    #endregion
+		
+		public tbl_Inventory()
+		{
+			this._tbl_USER = default(EntityRef<tbl_USER>);
+			this._tbl_Item = default(EntityRef<tbl_Item>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Invtry_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Invtry_ID
+		{
+			get
+			{
+				return this._Invtry_ID;
+			}
+			set
+			{
+				if ((this._Invtry_ID != value))
+				{
+					this.OnInvtry_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Invtry_ID = value;
+					this.SendPropertyChanged("Invtry_ID");
+					this.OnInvtry_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
+		public int User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					if (this._tbl_USER.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUser_IDChanging(value);
+					this.SendPropertyChanging();
+					this._User_ID = value;
+					this.SendPropertyChanged("User_ID");
+					this.OnUser_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Invtry_Item_Quantity", DbType="Int NOT NULL")]
+		public int Invtry_Item_Quantity
+		{
+			get
+			{
+				return this._Invtry_Item_Quantity;
+			}
+			set
+			{
+				if ((this._Invtry_Item_Quantity != value))
+				{
+					this.OnInvtry_Item_QuantityChanging(value);
+					this.SendPropertyChanging();
+					this._Invtry_Item_Quantity = value;
+					this.SendPropertyChanged("Invtry_Item_Quantity");
+					this.OnInvtry_Item_QuantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_ID", DbType="Int NOT NULL")]
+		public int Item_ID
+		{
+			get
+			{
+				return this._Item_ID;
+			}
+			set
+			{
+				if ((this._Item_ID != value))
+				{
+					if (this._tbl_Item.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnItem_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Item_ID = value;
+					this.SendPropertyChanged("Item_ID");
+					this.OnItem_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Invtry_Item_Quality", DbType="Int NOT NULL")]
+		public int Invtry_Item_Quality
+		{
+			get
+			{
+				return this._Invtry_Item_Quality;
+			}
+			set
+			{
+				if ((this._Invtry_Item_Quality != value))
+				{
+					this.OnInvtry_Item_QualityChanging(value);
+					this.SendPropertyChanging();
+					this._Invtry_Item_Quality = value;
+					this.SendPropertyChanged("Invtry_Item_Quality");
+					this.OnInvtry_Item_QualityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		public tbl_USER tbl_USER
+		{
+			get
+			{
+				return this._tbl_USER.Entity;
+			}
+			set
+			{
+				tbl_USER previousValue = this._tbl_USER.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_USER.Entity = null;
+						previousValue.tbl_Inventories.Remove(this);
+					}
+					this._tbl_USER.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Inventories.Add(this);
+						this._User_ID = value.Usr_id;
+					}
+					else
+					{
+						this._User_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_USER");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Item_tbl_Inventory", Storage="_tbl_Item", ThisKey="Item_ID", OtherKey="Item_ID", IsForeignKey=true)]
+		public tbl_Item tbl_Item
+		{
+			get
+			{
+				return this._tbl_Item.Entity;
+			}
+			set
+			{
+				tbl_Item previousValue = this._tbl_Item.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Item.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Item.Entity = null;
+						previousValue.tbl_Inventories.Remove(this);
+					}
+					this._tbl_Item.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Inventories.Add(this);
+						this._Item_ID = value.Item_ID;
+					}
+					else
+					{
+						this._Item_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_Item");
 				}
 			}
 		}
@@ -347,8 +1265,463 @@ namespace QuitarFLVW.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TRAININGS")]
-	public partial class TRAINING : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Items")]
+	public partial class tbl_Item : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Item_ID;
+		
+		private string _Item_Name;
+		
+		private EntitySet<tbl_Inventory> _tbl_Inventories;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnItem_IDChanging(int value);
+    partial void OnItem_IDChanged();
+    partial void OnItem_NameChanging(string value);
+    partial void OnItem_NameChanged();
+    #endregion
+		
+		public tbl_Item()
+		{
+			this._tbl_Inventories = new EntitySet<tbl_Inventory>(new Action<tbl_Inventory>(this.attach_tbl_Inventories), new Action<tbl_Inventory>(this.detach_tbl_Inventories));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Item_ID
+		{
+			get
+			{
+				return this._Item_ID;
+			}
+			set
+			{
+				if ((this._Item_ID != value))
+				{
+					this.OnItem_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Item_ID = value;
+					this.SendPropertyChanged("Item_ID");
+					this.OnItem_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_Name", DbType="VarChar(50)")]
+		public string Item_Name
+		{
+			get
+			{
+				return this._Item_Name;
+			}
+			set
+			{
+				if ((this._Item_Name != value))
+				{
+					this.OnItem_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Item_Name = value;
+					this.SendPropertyChanged("Item_Name");
+					this.OnItem_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Item_tbl_Inventory", Storage="_tbl_Inventories", ThisKey="Item_ID", OtherKey="Item_ID")]
+		public EntitySet<tbl_Inventory> tbl_Inventories
+		{
+			get
+			{
+				return this._tbl_Inventories;
+			}
+			set
+			{
+				this._tbl_Inventories.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Item = this;
+		}
+		
+		private void detach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Item = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Money_Types")]
+	public partial class tbl_Money_Type : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Mny_ID;
+		
+		private int _Country_ID;
+		
+		private string _Mny_Name;
+		
+		private EntitySet<tbl_Bank> _tbl_Banks;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMny_IDChanging(int value);
+    partial void OnMny_IDChanged();
+    partial void OnCountry_IDChanging(int value);
+    partial void OnCountry_IDChanged();
+    partial void OnMny_NameChanging(string value);
+    partial void OnMny_NameChanged();
+    #endregion
+		
+		public tbl_Money_Type()
+		{
+			this._tbl_Banks = new EntitySet<tbl_Bank>(new Action<tbl_Bank>(this.attach_tbl_Banks), new Action<tbl_Bank>(this.detach_tbl_Banks));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mny_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Mny_ID
+		{
+			get
+			{
+				return this._Mny_ID;
+			}
+			set
+			{
+				if ((this._Mny_ID != value))
+				{
+					this.OnMny_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Mny_ID = value;
+					this.SendPropertyChanged("Mny_ID");
+					this.OnMny_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country_ID", DbType="Int NOT NULL")]
+		public int Country_ID
+		{
+			get
+			{
+				return this._Country_ID;
+			}
+			set
+			{
+				if ((this._Country_ID != value))
+				{
+					this.OnCountry_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Country_ID = value;
+					this.SendPropertyChanged("Country_ID");
+					this.OnCountry_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mny_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Mny_Name
+		{
+			get
+			{
+				return this._Mny_Name;
+			}
+			set
+			{
+				if ((this._Mny_Name != value))
+				{
+					this.OnMny_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Mny_Name = value;
+					this.SendPropertyChanged("Mny_Name");
+					this.OnMny_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Money_Type_tbl_Bank", Storage="_tbl_Banks", ThisKey="Mny_ID", OtherKey="Mny_ID")]
+		public EntitySet<tbl_Bank> tbl_Banks
+		{
+			get
+			{
+				return this._tbl_Banks;
+			}
+			set
+			{
+				this._tbl_Banks.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_Banks(tbl_Bank entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Money_Type = this;
+		}
+		
+		private void detach_tbl_Banks(tbl_Bank entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Money_Type = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Regions")]
+	public partial class tbl_Region : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Region_ID;
+		
+		private System.Nullable<int> _Country_ID;
+		
+		private string _Region_Name;
+		
+		private System.Nullable<int> _Region_OcupedBY;
+		
+		private EntitySet<tbl_USER> _tbl_USERs;
+		
+		private EntityRef<tbl_Country> _tbl_Country;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnRegion_IDChanging(int value);
+    partial void OnRegion_IDChanged();
+    partial void OnCountry_IDChanging(System.Nullable<int> value);
+    partial void OnCountry_IDChanged();
+    partial void OnRegion_NameChanging(string value);
+    partial void OnRegion_NameChanged();
+    partial void OnRegion_OcupedBYChanging(System.Nullable<int> value);
+    partial void OnRegion_OcupedBYChanged();
+    #endregion
+		
+		public tbl_Region()
+		{
+			this._tbl_USERs = new EntitySet<tbl_USER>(new Action<tbl_USER>(this.attach_tbl_USERs), new Action<tbl_USER>(this.detach_tbl_USERs));
+			this._tbl_Country = default(EntityRef<tbl_Country>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Region_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Region_ID
+		{
+			get
+			{
+				return this._Region_ID;
+			}
+			set
+			{
+				if ((this._Region_ID != value))
+				{
+					this.OnRegion_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Region_ID = value;
+					this.SendPropertyChanged("Region_ID");
+					this.OnRegion_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country_ID", DbType="Int")]
+		public System.Nullable<int> Country_ID
+		{
+			get
+			{
+				return this._Country_ID;
+			}
+			set
+			{
+				if ((this._Country_ID != value))
+				{
+					if (this._tbl_Country.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCountry_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Country_ID = value;
+					this.SendPropertyChanged("Country_ID");
+					this.OnCountry_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Region_Name", DbType="VarChar(150)")]
+		public string Region_Name
+		{
+			get
+			{
+				return this._Region_Name;
+			}
+			set
+			{
+				if ((this._Region_Name != value))
+				{
+					this.OnRegion_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Region_Name = value;
+					this.SendPropertyChanged("Region_Name");
+					this.OnRegion_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Region_OcupedBY", DbType="Int")]
+		public System.Nullable<int> Region_OcupedBY
+		{
+			get
+			{
+				return this._Region_OcupedBY;
+			}
+			set
+			{
+				if ((this._Region_OcupedBY != value))
+				{
+					this.OnRegion_OcupedBYChanging(value);
+					this.SendPropertyChanging();
+					this._Region_OcupedBY = value;
+					this.SendPropertyChanged("Region_OcupedBY");
+					this.OnRegion_OcupedBYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Region_tbl_USER", Storage="_tbl_USERs", ThisKey="Region_ID", OtherKey="Usr_Location")]
+		public EntitySet<tbl_USER> tbl_USERs
+		{
+			get
+			{
+				return this._tbl_USERs;
+			}
+			set
+			{
+				this._tbl_USERs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_Region", Storage="_tbl_Country", ThisKey="Country_ID", OtherKey="Ctry_ID", IsForeignKey=true)]
+		public tbl_Country tbl_Country
+		{
+			get
+			{
+				return this._tbl_Country.Entity;
+			}
+			set
+			{
+				tbl_Country previousValue = this._tbl_Country.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Country.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Country.Entity = null;
+						previousValue.tbl_Regions.Remove(this);
+					}
+					this._tbl_Country.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Regions.Add(this);
+						this._Country_ID = value.Ctry_ID;
+					}
+					else
+					{
+						this._Country_ID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_Country");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_USERs(tbl_USER entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Region = this;
+		}
+		
+		private void detach_tbl_USERs(tbl_USER entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Region = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Training")]
+	public partial class tbl_Training : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -359,7 +1732,7 @@ namespace QuitarFLVW.Data
 		
 		private System.Nullable<int> _User_ID;
 		
-		private EntityRef<USER> _USER;
+		private EntityRef<tbl_USER> _tbl_USER;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -373,9 +1746,9 @@ namespace QuitarFLVW.Data
     partial void OnUser_IDChanged();
     #endregion
 		
-		public TRAINING()
+		public tbl_Training()
 		{
-			this._USER = default(EntityRef<USER>);
+			this._tbl_USER = default(EntityRef<tbl_USER>);
 			OnCreated();
 		}
 		
@@ -390,10 +1763,6 @@ namespace QuitarFLVW.Data
 			{
 				if ((this._Train_ID != value))
 				{
-					if (this._USER.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnTrain_IDChanging(value);
 					this.SendPropertyChanging();
 					this._Train_ID = value;
@@ -434,6 +1803,10 @@ namespace QuitarFLVW.Data
 			{
 				if ((this._User_ID != value))
 				{
+					if (this._tbl_USER.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnUser_IDChanging(value);
 					this.SendPropertyChanging();
 					this._User_ID = value;
@@ -443,36 +1816,36 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="USER_TRAINING", Storage="_USER", ThisKey="Train_ID", OtherKey="Usr_id", IsForeignKey=true)]
-		public USER USER
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Training", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		public tbl_USER tbl_USER
 		{
 			get
 			{
-				return this._USER.Entity;
+				return this._tbl_USER.Entity;
 			}
 			set
 			{
-				USER previousValue = this._USER.Entity;
+				tbl_USER previousValue = this._tbl_USER.Entity;
 				if (((previousValue != value) 
-							|| (this._USER.HasLoadedOrAssignedValue == false)))
+							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._USER.Entity = null;
-						previousValue.TRAINING = null;
+						this._tbl_USER.Entity = null;
+						previousValue.tbl_Trainings.Remove(this);
 					}
-					this._USER.Entity = value;
+					this._tbl_USER.Entity = value;
 					if ((value != null))
 					{
-						value.TRAINING = this;
-						this._Train_ID = value.Usr_id;
+						value.tbl_Trainings.Add(this);
+						this._User_ID = value.Usr_id;
 					}
 					else
 					{
-						this._Train_ID = default(int);
+						this._User_ID = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("USER");
+					this.SendPropertyChanged("tbl_USER");
 				}
 			}
 		}

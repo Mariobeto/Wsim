@@ -15,7 +15,7 @@ namespace QuitarFLVW.Logic
 
             try
             {
-                var ConsultaSiYaEntreno = (from t in db.TRAININGs
+                var ConsultaSiYaEntreno = (from t in db.tbl_Trainings
                                            where t.User_ID == 1
                                            && t.Train_Date.Month == FechaHoy.Month
                                            && t.Train_Date.Day == FechaHoy.Day
@@ -24,39 +24,45 @@ namespace QuitarFLVW.Logic
                 return false;
             }
             catch(Exception){}
-            var PuntosGanados = (from u in db.USERs
-                                    where u.Usr_id == 1
-                                     select u).ToList();
-            int totalSesiones = Convert.ToInt32(PuntosGanados[0].Usr_TotalTrainingSessions);
-            
+            var PuntosGanados = (from u in db.tbl_USERs
+                                 where u.Usr_id == 1
+                                     select u).ToList().Single();
+            int totalSesiones = Convert.ToInt32(PuntosGanados.Usr_TotalTrainingSessions);
+
             if (totalSesiones <= 21)
             {
-                PuntosGanados[0].Usr_Streng = PuntosGanados[0].Usr_Streng + 20;
-                PuntosGanados[0].Usr_TotalTrainingSessions = PuntosGanados[0].Usr_TotalTrainingSessions + 1;
+                PuntosGanados.Usr_Strength += 20;
+                PuntosGanados.Usr_TotalTrainingSessions = PuntosGanados.Usr_TotalTrainingSessions + 1;
             }
             else if (totalSesiones >= 22 && totalSesiones <= 60)
             {
-                PuntosGanados[0].Usr_Streng = PuntosGanados[0].Usr_Streng + 10;
-                PuntosGanados[0].Usr_TotalTrainingSessions = PuntosGanados[0].Usr_TotalTrainingSessions + 1;
+                PuntosGanados.Usr_Strength += +10;
+                PuntosGanados.Usr_TotalTrainingSessions = PuntosGanados.Usr_TotalTrainingSessions + 1;
             }
             else if (totalSesiones >= 61 && totalSesiones <= 141)
             {
-                PuntosGanados[0].Usr_Streng = PuntosGanados[0].Usr_Streng + 5;
-                PuntosGanados[0].Usr_TotalTrainingSessions = PuntosGanados[0].Usr_TotalTrainingSessions + 1;
+                PuntosGanados.Usr_Strength += 5;
+                PuntosGanados.Usr_TotalTrainingSessions = PuntosGanados.Usr_TotalTrainingSessions + 1;
             }
             else if (totalSesiones >= 141)
             {
-                PuntosGanados[0].Usr_Streng = PuntosGanados[0].Usr_Streng + 2;
-                PuntosGanados[0].Usr_TotalTrainingSessions = PuntosGanados[0].Usr_TotalTrainingSessions + 1;
+                PuntosGanados.Usr_Strength += 2;
+                PuntosGanados.Usr_TotalTrainingSessions = PuntosGanados.Usr_TotalTrainingSessions + 1;
             }
+            PuntosGanados.Usr_Experience += 5;
 
-            TRAINING tra = new TRAINING();
+            tbl_Training tra = new tbl_Training();
             tra.User_ID = 1;
             tra.Train_Date = DateTime.Now;
 
-            db.TRAININGs.InsertOnSubmit(tra);
+            db.tbl_Trainings.InsertOnSubmit(tra);
             db.SubmitChanges();
             return true;
+        }
+
+        public static bool Work()
+        {
+            return false;
         }
     }
 }

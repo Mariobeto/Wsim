@@ -17,6 +17,5 @@
         <p>
             <asp:Button ID="btnEntrenar" runat="server" Text="Entrenar" OnClientClick="fnTrain();return false;" />
         </p>
-    <asp:Label ID="Label1" runat="server" Text="<%$ Resources:wsimResources, Train %>"></asp:Label>
    
 </asp:Content>

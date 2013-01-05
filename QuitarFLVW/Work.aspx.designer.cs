@@ -10,7 +10,7 @@
 namespace QuitarFLVW {
     
     
-    public partial class WebForm1 {
+    public partial class WebForm2 {
         
         /// <summary>
         /// ScriptManager1 control.

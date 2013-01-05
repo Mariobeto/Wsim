@@ -1,24 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="wsim" Class="SessionDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=MARIO-PC;Initial Catalog=wsim;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="wsimConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.USERS" Member="USERs">
-    <Type Name="USER">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=MARIO-PC;Initial Catalog=wsim;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="wsimConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tbl_Bank" Member="tbl_Banks">
+    <Type Name="tbl_Bank">
+      <Column Name="Bank_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mny_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Bank_Quantity" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_USER_tbl_Bank" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
+      <Association Name="tbl_Money_Type_tbl_Bank" Member="tbl_Money_Type" ThisKey="Mny_ID" OtherKey="Mny_ID" Type="tbl_Money_Type" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_USERS" Member="tbl_USERs">
+    <Type Name="tbl_USER">
       <Column Name="Usr_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Usr_Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Usr_Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Usr_BirthDay" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Usr_Damage" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Usr_TotalTrainingSessions" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Usr_TotalDamageDone" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Usr_Streng" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="USER_TRAINING" Member="TRAINING" ThisKey="Usr_id" OtherKey="Train_ID" Type="TRAINING" Cardinality="One" />
+      <Column Name="Usr_Strength" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_Citizenship" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_Location" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_Experience" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_EconomySkill" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Usr_FoodLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_GiftLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tbl_USER_tbl_Bank" Member="tbl_Banks" ThisKey="Usr_id" OtherKey="User_ID" Type="tbl_Bank" />
+      <Association Name="tbl_USER_tbl_Inventory" Member="tbl_Inventories" ThisKey="Usr_id" OtherKey="User_ID" Type="tbl_Inventory" />
+      <Association Name="tbl_USER_tbl_Training" Member="tbl_Trainings" ThisKey="Usr_id" OtherKey="User_ID" Type="tbl_Training" />
+      <Association Name="tbl_Country_tbl_USER" Member="tbl_Country" ThisKey="Usr_Citizenship" OtherKey="Ctry_ID" Type="tbl_Country" IsForeignKey="true" />
+      <Association Name="tbl_Region_tbl_USER" Member="tbl_Region" ThisKey="Usr_Location" OtherKey="Region_ID" Type="tbl_Region" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.TRAININGS" Member="TRAININGs">
-    <Type Name="TRAINING">
+  <Table Name="dbo.tbl_Countries" Member="tbl_Countries">
+    <Type Name="tbl_Country">
+      <Column Name="Ctry_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Ctry_Name" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Association Name="tbl_Country_tbl_USER" Member="tbl_USERs" ThisKey="Ctry_ID" OtherKey="Usr_Citizenship" Type="tbl_USER" />
+      <Association Name="tbl_Country_tbl_Region" Member="tbl_Regions" ThisKey="Ctry_ID" OtherKey="Country_ID" Type="tbl_Region" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Inventory" Member="tbl_Inventories">
+    <Type Name="tbl_Inventory">
+      <Column Name="Invtry_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Invtry_Item_Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Item_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Invtry_Item_Quality" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_USER_tbl_Inventory" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
+      <Association Name="tbl_Item_tbl_Inventory" Member="tbl_Item" ThisKey="Item_ID" OtherKey="Item_ID" Type="tbl_Item" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Items" Member="tbl_Items">
+    <Type Name="tbl_Item">
+      <Column Name="Item_ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Item_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="tbl_Item_tbl_Inventory" Member="tbl_Inventories" ThisKey="Item_ID" OtherKey="Item_ID" Type="tbl_Inventory" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Money_Types" Member="tbl_Money_Types">
+    <Type Name="tbl_Money_Type">
+      <Column Name="Mny_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Country_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mny_Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_Money_Type_tbl_Bank" Member="tbl_Banks" ThisKey="Mny_ID" OtherKey="Mny_ID" Type="tbl_Bank" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Regions" Member="tbl_Regions">
+    <Type Name="tbl_Region">
+      <Column Name="Region_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Country_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Region_Name" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Region_OcupedBY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tbl_Region_tbl_USER" Member="tbl_USERs" ThisKey="Region_ID" OtherKey="Usr_Location" Type="tbl_USER" />
+      <Association Name="tbl_Country_tbl_Region" Member="tbl_Country" ThisKey="Country_ID" OtherKey="Ctry_ID" Type="tbl_Country" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Training" Member="tbl_Trainings">
+    <Type Name="tbl_Training">
       <Column Name="Train_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Train_Date" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
       <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="USER_TRAINING" Member="USER" ThisKey="Train_ID" OtherKey="Usr_id" Type="USER" IsForeignKey="true" />
+      <Association Name="tbl_USER_tbl_Training" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

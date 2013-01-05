@@ -12,12 +12,16 @@ function fnTrain() {
     wsim.serviciosw.DoMission(fuTrainOnSuccessCallBack, ajaxErrorCallBack);
 }
 
+function fnWork() {
+    wsim.serviciosw.Work(fuWorkOnSuccessCallBack, ajaxErrorCallBack);
+}
+
 function ajaxErrorCallBack(args) {
     ShowMessageBox("Wsim Error","Hubo un error favor de reportarlo a soporte tecnico si este persiste");
 
 }
 
-function fuTrainOnSuccessCallBack(args) {
+function fuOnSuccessCallBack(args) {
     if (args) {
         ShowMessageBox("Wsim", "Entreno correctamente vuelva mañana para volver a entrenar");
     }
@@ -25,3 +29,4 @@ function fuTrainOnSuccessCallBack(args) {
         ShowMessageBox("Wsim", "Ya entreno por el dia de hoy comandante, se puede entrenar 1 vez cada 24 horas");
     }
 }
+
