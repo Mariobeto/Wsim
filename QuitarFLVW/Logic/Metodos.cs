@@ -16,7 +16,7 @@ namespace QuitarFLVW.Logic
             try
             {
                 var ConsultaSiYaEntreno = (from t in db.tbl_Trainings
-                                           where t.User_ID == 1
+                                           where t.User_ID == 6
                                            && t.Train_Date.Month == FechaHoy.Month
                                            && t.Train_Date.Day == FechaHoy.Day
                                            && t.Train_Date.Year == FechaHoy.Year
@@ -25,7 +25,7 @@ namespace QuitarFLVW.Logic
             }
             catch(Exception){}
             var PuntosGanados = (from u in db.tbl_USERs
-                                 where u.Usr_id == 1
+                                 where u.Usr_id == 6
                                      select u).ToList().Single();
             int totalSesiones = Convert.ToInt32(PuntosGanados.Usr_TotalTrainingSessions);
 
@@ -49,7 +49,7 @@ namespace QuitarFLVW.Logic
                 PuntosGanados.Usr_Strength += 2;
                 PuntosGanados.Usr_TotalTrainingSessions = PuntosGanados.Usr_TotalTrainingSessions + 1;
             }
-            PuntosGanados.Usr_Experience += 5;
+            PuntosGanados.Usr_Experience += 2;
 
             tbl_Training tra = new tbl_Training();
             tra.User_ID = 1;
@@ -62,6 +62,43 @@ namespace QuitarFLVW.Logic
 
         public static bool Work()
         {
+            var FechaHoy = DateTime.Now;
+            SessionDBDataContext db = new SessionDBDataContext();
+
+            try
+            {
+                var ConsultaSiYaTrabajo = (from t in db.tbl_Workdays
+                                           where t.User_ID == 6
+                                           && t.Workday_Date.Month == FechaHoy.Month
+                                           && t.Workday_Date.Day == FechaHoy.Day
+                                           && t.Workday_Date.Year == FechaHoy.Year
+                                           select t.Workday_Date).Single();
+                return false;
+            }
+            catch (Exception) { }
+            //El salario de la compañia en la que trabaja
+            var ConsultaSalarioCompny = (from t in db.tbl_Workers
+                                      where t.User_ID == 6
+                                      select t).Single();
+            //Se consulta la compañia en la que trabaja
+            var CmnyEnLaqTrabaja = (from t in db.tbl_Companies
+                           where t.Compny_ID == ConsultaSalarioCompny.Compny_ID
+                                   select t).Single();
+
+            //Se le va a pagar su salario 
+            var Pagar = (from t in db.tbl_Banks
+                         where t.User_ID == 6
+                         && t.Mny_ID == CmnyEnLaqTrabaja.Country_ID
+                         select t).Single();
+            Pagar.Bank_Quantity += ConsultaSalarioCompny.Salary;
+
+
+            var Usuario = (from t in db.tbl_USERs
+                                       where t.Usr_id == 6
+                                       select t).Single();
+            Usuario.Usr_Experience += 5;
+
+
             return false;
         }
     }

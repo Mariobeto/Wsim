@@ -12,6 +12,6 @@
          </asp:ScriptManager>
 
         <p>
-            <asp:Button ID="btnEntrenar" runat="server" Text="Entrenar" OnClientClick="fnWork();return false;" />
+            <asp:Button ID="btnWork" runat="server" Text="Trabajar" OnClientClick="fnWork();return false;" />
         </p>
 </asp:Content>

@@ -33,9 +33,9 @@ namespace QuitarFLVW.Data
     partial void Inserttbl_Bank(tbl_Bank instance);
     partial void Updatetbl_Bank(tbl_Bank instance);
     partial void Deletetbl_Bank(tbl_Bank instance);
-    partial void Inserttbl_USER(tbl_USER instance);
-    partial void Updatetbl_USER(tbl_USER instance);
-    partial void Deletetbl_USER(tbl_USER instance);
+    partial void Inserttbl_Company(tbl_Company instance);
+    partial void Updatetbl_Company(tbl_Company instance);
+    partial void Deletetbl_Company(tbl_Company instance);
     partial void Inserttbl_Country(tbl_Country instance);
     partial void Updatetbl_Country(tbl_Country instance);
     partial void Deletetbl_Country(tbl_Country instance);
@@ -54,6 +54,9 @@ namespace QuitarFLVW.Data
     partial void Inserttbl_Training(tbl_Training instance);
     partial void Updatetbl_Training(tbl_Training instance);
     partial void Deletetbl_Training(tbl_Training instance);
+    partial void Inserttbl_USER(tbl_USER instance);
+    partial void Updatetbl_USER(tbl_USER instance);
+    partial void Deletetbl_USER(tbl_USER instance);
     #endregion
 		
 		public SessionDBDataContext() : 
@@ -94,11 +97,19 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<tbl_USER> tbl_USERs
+		public System.Data.Linq.Table<tbl_Worker> tbl_Workers
 		{
 			get
 			{
-				return this.GetTable<tbl_USER>();
+				return this.GetTable<tbl_Worker>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Company> tbl_Companies
+		{
+			get
+			{
+				return this.GetTable<tbl_Company>();
 			}
 		}
 		
@@ -149,6 +160,22 @@ namespace QuitarFLVW.Data
 				return this.GetTable<tbl_Training>();
 			}
 		}
+		
+		public System.Data.Linq.Table<tbl_USER> tbl_USERs
+		{
+			get
+			{
+				return this.GetTable<tbl_USER>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Workday> tbl_Workdays
+		{
+			get
+			{
+				return this.GetTable<tbl_Workday>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Bank")]
@@ -165,9 +192,9 @@ namespace QuitarFLVW.Data
 		
 		private decimal _Bank_Quantity;
 		
-		private EntityRef<tbl_USER> _tbl_USER;
-		
 		private EntityRef<tbl_Money_Type> _tbl_Money_Type;
+		
+		private EntityRef<tbl_USER> _tbl_USER;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -185,8 +212,8 @@ namespace QuitarFLVW.Data
 		
 		public tbl_Bank()
 		{
-			this._tbl_USER = default(EntityRef<tbl_USER>);
 			this._tbl_Money_Type = default(EntityRef<tbl_Money_Type>);
+			this._tbl_USER = default(EntityRef<tbl_USER>);
 			OnCreated();
 		}
 		
@@ -278,40 +305,6 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
-		public tbl_USER tbl_USER
-		{
-			get
-			{
-				return this._tbl_USER.Entity;
-			}
-			set
-			{
-				tbl_USER previousValue = this._tbl_USER.Entity;
-				if (((previousValue != value) 
-							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tbl_USER.Entity = null;
-						previousValue.tbl_Banks.Remove(this);
-					}
-					this._tbl_USER.Entity = value;
-					if ((value != null))
-					{
-						value.tbl_Banks.Add(this);
-						this._User_ID = value.Usr_id;
-					}
-					else
-					{
-						this._User_ID = default(int);
-					}
-					this.SendPropertyChanged("tbl_USER");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Money_Type_tbl_Bank", Storage="_tbl_Money_Type", ThisKey="Mny_ID", OtherKey="Mny_ID", IsForeignKey=true)]
 		public tbl_Money_Type tbl_Money_Type
 		{
@@ -346,6 +339,40 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		public tbl_USER tbl_USER
+		{
+			get
+			{
+				return this._tbl_USER.Entity;
+			}
+			set
+			{
+				tbl_USER previousValue = this._tbl_USER.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_USER.Entity = null;
+						previousValue.tbl_Banks.Remove(this);
+					}
+					this._tbl_USER.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Banks.Add(this);
+						this._User_ID = value.Usr_id;
+					}
+					else
+					{
+						this._User_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_USER");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -367,461 +394,267 @@ namespace QuitarFLVW.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_USERS")]
-	public partial class tbl_USER : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Workers")]
+	public partial class tbl_Worker
+	{
+		
+		private int _Compny_ID;
+		
+		private int _User_ID;
+		
+		private decimal _Salary;
+		
+		public tbl_Worker()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Compny_ID", DbType="Int NOT NULL")]
+		public int Compny_ID
+		{
+			get
+			{
+				return this._Compny_ID;
+			}
+			set
+			{
+				if ((this._Compny_ID != value))
+				{
+					this._Compny_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
+		public int User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					this._User_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Salary", DbType="Money NOT NULL")]
+		public decimal Salary
+		{
+			get
+			{
+				return this._Salary;
+			}
+			set
+			{
+				if ((this._Salary != value))
+				{
+					this._Salary = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Companies")]
+	public partial class tbl_Company : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Usr_id;
+		private int _Compny_ID;
 		
-		private string _Usr_Name;
+		private int _Country_ID;
 		
-		private string _Usr_Password;
+		private string _Compny_Name;
 		
-		private System.Nullable<System.DateTime> _Usr_BirthDay;
+		private int _Item_ID;
 		
-		private System.Nullable<int> _Usr_TotalTrainingSessions;
+		private int _User_OwnerID;
 		
-		private System.Nullable<int> _Usr_TotalDamageDone;
+		private int _Company_Level;
 		
-		private System.Nullable<int> _Usr_Strength;
-		
-		private System.Nullable<int> _Usr_Citizenship;
-		
-		private System.Nullable<int> _Usr_Location;
-		
-		private System.Nullable<int> _Usr_Experience;
-		
-		private System.Nullable<double> _Usr_EconomySkill;
-		
-		private System.Nullable<int> _Usr_FoodLimit;
-		
-		private System.Nullable<int> _Usr_GiftLimit;
-		
-		private EntitySet<tbl_Bank> _tbl_Banks;
-		
-		private EntitySet<tbl_Inventory> _tbl_Inventories;
-		
-		private EntitySet<tbl_Training> _tbl_Trainings;
-		
-		private EntityRef<tbl_Country> _tbl_Country;
-		
-		private EntityRef<tbl_Region> _tbl_Region;
+		private EntityRef<tbl_USER> _tbl_USER;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnUsr_idChanging(int value);
-    partial void OnUsr_idChanged();
-    partial void OnUsr_NameChanging(string value);
-    partial void OnUsr_NameChanged();
-    partial void OnUsr_PasswordChanging(string value);
-    partial void OnUsr_PasswordChanged();
-    partial void OnUsr_BirthDayChanging(System.Nullable<System.DateTime> value);
-    partial void OnUsr_BirthDayChanged();
-    partial void OnUsr_TotalTrainingSessionsChanging(System.Nullable<int> value);
-    partial void OnUsr_TotalTrainingSessionsChanged();
-    partial void OnUsr_TotalDamageDoneChanging(System.Nullable<int> value);
-    partial void OnUsr_TotalDamageDoneChanged();
-    partial void OnUsr_StrengthChanging(System.Nullable<int> value);
-    partial void OnUsr_StrengthChanged();
-    partial void OnUsr_CitizenshipChanging(System.Nullable<int> value);
-    partial void OnUsr_CitizenshipChanged();
-    partial void OnUsr_LocationChanging(System.Nullable<int> value);
-    partial void OnUsr_LocationChanged();
-    partial void OnUsr_ExperienceChanging(System.Nullable<int> value);
-    partial void OnUsr_ExperienceChanged();
-    partial void OnUsr_EconomySkillChanging(System.Nullable<double> value);
-    partial void OnUsr_EconomySkillChanged();
-    partial void OnUsr_FoodLimitChanging(System.Nullable<int> value);
-    partial void OnUsr_FoodLimitChanged();
-    partial void OnUsr_GiftLimitChanging(System.Nullable<int> value);
-    partial void OnUsr_GiftLimitChanged();
+    partial void OnCompny_IDChanging(int value);
+    partial void OnCompny_IDChanged();
+    partial void OnCountry_IDChanging(int value);
+    partial void OnCountry_IDChanged();
+    partial void OnCompny_NameChanging(string value);
+    partial void OnCompny_NameChanged();
+    partial void OnItem_IDChanging(int value);
+    partial void OnItem_IDChanged();
+    partial void OnUser_OwnerIDChanging(int value);
+    partial void OnUser_OwnerIDChanged();
+    partial void OnCompany_LevelChanging(int value);
+    partial void OnCompany_LevelChanged();
     #endregion
 		
-		public tbl_USER()
+		public tbl_Company()
 		{
-			this._tbl_Banks = new EntitySet<tbl_Bank>(new Action<tbl_Bank>(this.attach_tbl_Banks), new Action<tbl_Bank>(this.detach_tbl_Banks));
-			this._tbl_Inventories = new EntitySet<tbl_Inventory>(new Action<tbl_Inventory>(this.attach_tbl_Inventories), new Action<tbl_Inventory>(this.detach_tbl_Inventories));
-			this._tbl_Trainings = new EntitySet<tbl_Training>(new Action<tbl_Training>(this.attach_tbl_Trainings), new Action<tbl_Training>(this.detach_tbl_Trainings));
-			this._tbl_Country = default(EntityRef<tbl_Country>);
-			this._tbl_Region = default(EntityRef<tbl_Region>);
+			this._tbl_USER = default(EntityRef<tbl_USER>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Usr_id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Compny_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Compny_ID
 		{
 			get
 			{
-				return this._Usr_id;
+				return this._Compny_ID;
 			}
 			set
 			{
-				if ((this._Usr_id != value))
+				if ((this._Compny_ID != value))
 				{
-					this.OnUsr_idChanging(value);
+					this.OnCompny_IDChanging(value);
 					this.SendPropertyChanging();
-					this._Usr_id = value;
-					this.SendPropertyChanged("Usr_id");
-					this.OnUsr_idChanged();
+					this._Compny_ID = value;
+					this.SendPropertyChanged("Compny_ID");
+					this.OnCompny_IDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Name", DbType="NVarChar(50)")]
-		public string Usr_Name
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country_ID", DbType="Int NOT NULL")]
+		public int Country_ID
 		{
 			get
 			{
-				return this._Usr_Name;
+				return this._Country_ID;
 			}
 			set
 			{
-				if ((this._Usr_Name != value))
+				if ((this._Country_ID != value))
 				{
-					this.OnUsr_NameChanging(value);
+					this.OnCountry_IDChanging(value);
 					this.SendPropertyChanging();
-					this._Usr_Name = value;
-					this.SendPropertyChanged("Usr_Name");
-					this.OnUsr_NameChanged();
+					this._Country_ID = value;
+					this.SendPropertyChanged("Country_ID");
+					this.OnCountry_IDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Password", DbType="NVarChar(50)")]
-		public string Usr_Password
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Compny_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Compny_Name
 		{
 			get
 			{
-				return this._Usr_Password;
+				return this._Compny_Name;
 			}
 			set
 			{
-				if ((this._Usr_Password != value))
+				if ((this._Compny_Name != value))
 				{
-					this.OnUsr_PasswordChanging(value);
+					this.OnCompny_NameChanging(value);
 					this.SendPropertyChanging();
-					this._Usr_Password = value;
-					this.SendPropertyChanged("Usr_Password");
-					this.OnUsr_PasswordChanged();
+					this._Compny_Name = value;
+					this.SendPropertyChanged("Compny_Name");
+					this.OnCompny_NameChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_BirthDay", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Usr_BirthDay
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_ID", DbType="Int NOT NULL")]
+		public int Item_ID
 		{
 			get
 			{
-				return this._Usr_BirthDay;
+				return this._Item_ID;
 			}
 			set
 			{
-				if ((this._Usr_BirthDay != value))
+				if ((this._Item_ID != value))
 				{
-					this.OnUsr_BirthDayChanging(value);
+					this.OnItem_IDChanging(value);
 					this.SendPropertyChanging();
-					this._Usr_BirthDay = value;
-					this.SendPropertyChanged("Usr_BirthDay");
-					this.OnUsr_BirthDayChanged();
+					this._Item_ID = value;
+					this.SendPropertyChanged("Item_ID");
+					this.OnItem_IDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TotalTrainingSessions", DbType="Int")]
-		public System.Nullable<int> Usr_TotalTrainingSessions
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_OwnerID", DbType="Int NOT NULL")]
+		public int User_OwnerID
 		{
 			get
 			{
-				return this._Usr_TotalTrainingSessions;
+				return this._User_OwnerID;
 			}
 			set
 			{
-				if ((this._Usr_TotalTrainingSessions != value))
+				if ((this._User_OwnerID != value))
 				{
-					this.OnUsr_TotalTrainingSessionsChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_TotalTrainingSessions = value;
-					this.SendPropertyChanged("Usr_TotalTrainingSessions");
-					this.OnUsr_TotalTrainingSessionsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TotalDamageDone", DbType="Int")]
-		public System.Nullable<int> Usr_TotalDamageDone
-		{
-			get
-			{
-				return this._Usr_TotalDamageDone;
-			}
-			set
-			{
-				if ((this._Usr_TotalDamageDone != value))
-				{
-					this.OnUsr_TotalDamageDoneChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_TotalDamageDone = value;
-					this.SendPropertyChanged("Usr_TotalDamageDone");
-					this.OnUsr_TotalDamageDoneChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Strength", DbType="Int")]
-		public System.Nullable<int> Usr_Strength
-		{
-			get
-			{
-				return this._Usr_Strength;
-			}
-			set
-			{
-				if ((this._Usr_Strength != value))
-				{
-					this.OnUsr_StrengthChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_Strength = value;
-					this.SendPropertyChanged("Usr_Strength");
-					this.OnUsr_StrengthChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Citizenship", DbType="Int")]
-		public System.Nullable<int> Usr_Citizenship
-		{
-			get
-			{
-				return this._Usr_Citizenship;
-			}
-			set
-			{
-				if ((this._Usr_Citizenship != value))
-				{
-					if (this._tbl_Country.HasLoadedOrAssignedValue)
+					if (this._tbl_USER.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnUsr_CitizenshipChanging(value);
+					this.OnUser_OwnerIDChanging(value);
 					this.SendPropertyChanging();
-					this._Usr_Citizenship = value;
-					this.SendPropertyChanged("Usr_Citizenship");
-					this.OnUsr_CitizenshipChanged();
+					this._User_OwnerID = value;
+					this.SendPropertyChanged("User_OwnerID");
+					this.OnUser_OwnerIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int")]
-		public System.Nullable<int> Usr_Location
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company_Level", DbType="Int NOT NULL")]
+		public int Company_Level
 		{
 			get
 			{
-				return this._Usr_Location;
+				return this._Company_Level;
 			}
 			set
 			{
-				if ((this._Usr_Location != value))
+				if ((this._Company_Level != value))
 				{
-					if (this._tbl_Region.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUsr_LocationChanging(value);
+					this.OnCompany_LevelChanging(value);
 					this.SendPropertyChanging();
-					this._Usr_Location = value;
-					this.SendPropertyChanged("Usr_Location");
-					this.OnUsr_LocationChanged();
+					this._Company_Level = value;
+					this.SendPropertyChanged("Company_Level");
+					this.OnCompany_LevelChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Experience", DbType="Int")]
-		public System.Nullable<int> Usr_Experience
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Company", Storage="_tbl_USER", ThisKey="User_OwnerID", OtherKey="Usr_id", IsForeignKey=true)]
+		public tbl_USER tbl_USER
 		{
 			get
 			{
-				return this._Usr_Experience;
+				return this._tbl_USER.Entity;
 			}
 			set
 			{
-				if ((this._Usr_Experience != value))
-				{
-					this.OnUsr_ExperienceChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_Experience = value;
-					this.SendPropertyChanged("Usr_Experience");
-					this.OnUsr_ExperienceChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Float")]
-		public System.Nullable<double> Usr_EconomySkill
-		{
-			get
-			{
-				return this._Usr_EconomySkill;
-			}
-			set
-			{
-				if ((this._Usr_EconomySkill != value))
-				{
-					this.OnUsr_EconomySkillChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_EconomySkill = value;
-					this.SendPropertyChanged("Usr_EconomySkill");
-					this.OnUsr_EconomySkillChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_FoodLimit", DbType="Int")]
-		public System.Nullable<int> Usr_FoodLimit
-		{
-			get
-			{
-				return this._Usr_FoodLimit;
-			}
-			set
-			{
-				if ((this._Usr_FoodLimit != value))
-				{
-					this.OnUsr_FoodLimitChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_FoodLimit = value;
-					this.SendPropertyChanged("Usr_FoodLimit");
-					this.OnUsr_FoodLimitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_GiftLimit", DbType="Int")]
-		public System.Nullable<int> Usr_GiftLimit
-		{
-			get
-			{
-				return this._Usr_GiftLimit;
-			}
-			set
-			{
-				if ((this._Usr_GiftLimit != value))
-				{
-					this.OnUsr_GiftLimitChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_GiftLimit = value;
-					this.SendPropertyChanged("Usr_GiftLimit");
-					this.OnUsr_GiftLimitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_Banks", ThisKey="Usr_id", OtherKey="User_ID")]
-		public EntitySet<tbl_Bank> tbl_Banks
-		{
-			get
-			{
-				return this._tbl_Banks;
-			}
-			set
-			{
-				this._tbl_Banks.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_Inventories", ThisKey="Usr_id", OtherKey="User_ID")]
-		public EntitySet<tbl_Inventory> tbl_Inventories
-		{
-			get
-			{
-				return this._tbl_Inventories;
-			}
-			set
-			{
-				this._tbl_Inventories.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Training", Storage="_tbl_Trainings", ThisKey="Usr_id", OtherKey="User_ID")]
-		public EntitySet<tbl_Training> tbl_Trainings
-		{
-			get
-			{
-				return this._tbl_Trainings;
-			}
-			set
-			{
-				this._tbl_Trainings.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_USER", Storage="_tbl_Country", ThisKey="Usr_Citizenship", OtherKey="Ctry_ID", IsForeignKey=true)]
-		public tbl_Country tbl_Country
-		{
-			get
-			{
-				return this._tbl_Country.Entity;
-			}
-			set
-			{
-				tbl_Country previousValue = this._tbl_Country.Entity;
+				tbl_USER previousValue = this._tbl_USER.Entity;
 				if (((previousValue != value) 
-							|| (this._tbl_Country.HasLoadedOrAssignedValue == false)))
+							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._tbl_Country.Entity = null;
-						previousValue.tbl_USERs.Remove(this);
+						this._tbl_USER.Entity = null;
+						previousValue.tbl_Companies.Remove(this);
 					}
-					this._tbl_Country.Entity = value;
+					this._tbl_USER.Entity = value;
 					if ((value != null))
 					{
-						value.tbl_USERs.Add(this);
-						this._Usr_Citizenship = value.Ctry_ID;
+						value.tbl_Companies.Add(this);
+						this._User_OwnerID = value.Usr_id;
 					}
 					else
 					{
-						this._Usr_Citizenship = default(Nullable<int>);
+						this._User_OwnerID = default(int);
 					}
-					this.SendPropertyChanged("tbl_Country");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Region_tbl_USER", Storage="_tbl_Region", ThisKey="Usr_Location", OtherKey="Region_ID", IsForeignKey=true)]
-		public tbl_Region tbl_Region
-		{
-			get
-			{
-				return this._tbl_Region.Entity;
-			}
-			set
-			{
-				tbl_Region previousValue = this._tbl_Region.Entity;
-				if (((previousValue != value) 
-							|| (this._tbl_Region.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tbl_Region.Entity = null;
-						previousValue.tbl_USERs.Remove(this);
-					}
-					this._tbl_Region.Entity = value;
-					if ((value != null))
-					{
-						value.tbl_USERs.Add(this);
-						this._Usr_Location = value.Region_ID;
-					}
-					else
-					{
-						this._Usr_Location = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("tbl_Region");
+					this.SendPropertyChanged("tbl_USER");
 				}
 			}
 		}
@@ -844,42 +677,6 @@ namespace QuitarFLVW.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_tbl_Banks(tbl_Bank entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_USER = this;
-		}
-		
-		private void detach_tbl_Banks(tbl_Bank entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_USER = null;
-		}
-		
-		private void attach_tbl_Inventories(tbl_Inventory entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_USER = this;
-		}
-		
-		private void detach_tbl_Inventories(tbl_Inventory entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_USER = null;
-		}
-		
-		private void attach_tbl_Trainings(tbl_Training entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_USER = this;
-		}
-		
-		private void detach_tbl_Trainings(tbl_Training entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_USER = null;
 		}
 	}
 	
@@ -893,9 +690,9 @@ namespace QuitarFLVW.Data
 		
 		private string _Ctry_Name;
 		
-		private EntitySet<tbl_USER> _tbl_USERs;
-		
 		private EntitySet<tbl_Region> _tbl_Regions;
+		
+		private EntitySet<tbl_USER> _tbl_USERs;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -909,8 +706,8 @@ namespace QuitarFLVW.Data
 		
 		public tbl_Country()
 		{
-			this._tbl_USERs = new EntitySet<tbl_USER>(new Action<tbl_USER>(this.attach_tbl_USERs), new Action<tbl_USER>(this.detach_tbl_USERs));
 			this._tbl_Regions = new EntitySet<tbl_Region>(new Action<tbl_Region>(this.attach_tbl_Regions), new Action<tbl_Region>(this.detach_tbl_Regions));
+			this._tbl_USERs = new EntitySet<tbl_USER>(new Action<tbl_USER>(this.attach_tbl_USERs), new Action<tbl_USER>(this.detach_tbl_USERs));
 			OnCreated();
 		}
 		
@@ -954,19 +751,6 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_USER", Storage="_tbl_USERs", ThisKey="Ctry_ID", OtherKey="Usr_Citizenship")]
-		public EntitySet<tbl_USER> tbl_USERs
-		{
-			get
-			{
-				return this._tbl_USERs;
-			}
-			set
-			{
-				this._tbl_USERs.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_Region", Storage="_tbl_Regions", ThisKey="Ctry_ID", OtherKey="Country_ID")]
 		public EntitySet<tbl_Region> tbl_Regions
 		{
@@ -977,6 +761,19 @@ namespace QuitarFLVW.Data
 			set
 			{
 				this._tbl_Regions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_USER", Storage="_tbl_USERs", ThisKey="Ctry_ID", OtherKey="Usr_Citizenship")]
+		public EntitySet<tbl_USER> tbl_USERs
+		{
+			get
+			{
+				return this._tbl_USERs;
+			}
+			set
+			{
+				this._tbl_USERs.Assign(value);
 			}
 		}
 		
@@ -1000,18 +797,6 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		private void attach_tbl_USERs(tbl_USER entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Country = this;
-		}
-		
-		private void detach_tbl_USERs(tbl_USER entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Country = null;
-		}
-		
 		private void attach_tbl_Regions(tbl_Region entity)
 		{
 			this.SendPropertyChanging();
@@ -1019,6 +804,18 @@ namespace QuitarFLVW.Data
 		}
 		
 		private void detach_tbl_Regions(tbl_Region entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Country = null;
+		}
+		
+		private void attach_tbl_USERs(tbl_USER entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Country = this;
+		}
+		
+		private void detach_tbl_USERs(tbl_USER entity)
 		{
 			this.SendPropertyChanging();
 			entity.tbl_Country = null;
@@ -1041,9 +838,9 @@ namespace QuitarFLVW.Data
 		
 		private int _Invtry_Item_Quality;
 		
-		private EntityRef<tbl_USER> _tbl_USER;
-		
 		private EntityRef<tbl_Item> _tbl_Item;
+		
+		private EntityRef<tbl_USER> _tbl_USER;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1063,8 +860,8 @@ namespace QuitarFLVW.Data
 		
 		public tbl_Inventory()
 		{
-			this._tbl_USER = default(EntityRef<tbl_USER>);
 			this._tbl_Item = default(EntityRef<tbl_Item>);
+			this._tbl_USER = default(EntityRef<tbl_USER>);
 			OnCreated();
 		}
 		
@@ -1176,40 +973,6 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
-		public tbl_USER tbl_USER
-		{
-			get
-			{
-				return this._tbl_USER.Entity;
-			}
-			set
-			{
-				tbl_USER previousValue = this._tbl_USER.Entity;
-				if (((previousValue != value) 
-							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tbl_USER.Entity = null;
-						previousValue.tbl_Inventories.Remove(this);
-					}
-					this._tbl_USER.Entity = value;
-					if ((value != null))
-					{
-						value.tbl_Inventories.Add(this);
-						this._User_ID = value.Usr_id;
-					}
-					else
-					{
-						this._User_ID = default(int);
-					}
-					this.SendPropertyChanged("tbl_USER");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Item_tbl_Inventory", Storage="_tbl_Item", ThisKey="Item_ID", OtherKey="Item_ID", IsForeignKey=true)]
 		public tbl_Item tbl_Item
 		{
@@ -1240,6 +1003,40 @@ namespace QuitarFLVW.Data
 						this._Item_ID = default(int);
 					}
 					this.SendPropertyChanged("tbl_Item");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		public tbl_USER tbl_USER
+		{
+			get
+			{
+				return this._tbl_USER.Entity;
+			}
+			set
+			{
+				tbl_USER previousValue = this._tbl_USER.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_USER.Entity = null;
+						previousValue.tbl_Inventories.Remove(this);
+					}
+					this._tbl_USER.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Inventories.Add(this);
+						this._User_ID = value.Usr_id;
+					}
+					else
+					{
+						this._User_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_USER");
 				}
 			}
 		}
@@ -1867,6 +1664,631 @@ namespace QuitarFLVW.Data
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_USERS")]
+	public partial class tbl_USER : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Usr_id;
+		
+		private string _Usr_Name;
+		
+		private string _Usr_Password;
+		
+		private System.Nullable<System.DateTime> _Usr_BirthDay;
+		
+		private System.Nullable<int> _Usr_TotalTrainingSessions;
+		
+		private System.Nullable<int> _Usr_TotalDamageDone;
+		
+		private System.Nullable<int> _Usr_Strength;
+		
+		private System.Nullable<int> _Usr_Citizenship;
+		
+		private System.Nullable<int> _Usr_Location;
+		
+		private System.Nullable<int> _Usr_Experience;
+		
+		private System.Nullable<double> _Usr_EconomySkill;
+		
+		private System.Nullable<int> _Usr_FoodLimit;
+		
+		private System.Nullable<int> _Usr_GiftLimit;
+		
+		private EntitySet<tbl_Bank> _tbl_Banks;
+		
+		private EntitySet<tbl_Company> _tbl_Companies;
+		
+		private EntitySet<tbl_Inventory> _tbl_Inventories;
+		
+		private EntitySet<tbl_Training> _tbl_Trainings;
+		
+		private EntityRef<tbl_Country> _tbl_Country;
+		
+		private EntityRef<tbl_Region> _tbl_Region;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUsr_idChanging(int value);
+    partial void OnUsr_idChanged();
+    partial void OnUsr_NameChanging(string value);
+    partial void OnUsr_NameChanged();
+    partial void OnUsr_PasswordChanging(string value);
+    partial void OnUsr_PasswordChanged();
+    partial void OnUsr_BirthDayChanging(System.Nullable<System.DateTime> value);
+    partial void OnUsr_BirthDayChanged();
+    partial void OnUsr_TotalTrainingSessionsChanging(System.Nullable<int> value);
+    partial void OnUsr_TotalTrainingSessionsChanged();
+    partial void OnUsr_TotalDamageDoneChanging(System.Nullable<int> value);
+    partial void OnUsr_TotalDamageDoneChanged();
+    partial void OnUsr_StrengthChanging(System.Nullable<int> value);
+    partial void OnUsr_StrengthChanged();
+    partial void OnUsr_CitizenshipChanging(System.Nullable<int> value);
+    partial void OnUsr_CitizenshipChanged();
+    partial void OnUsr_LocationChanging(System.Nullable<int> value);
+    partial void OnUsr_LocationChanged();
+    partial void OnUsr_ExperienceChanging(System.Nullable<int> value);
+    partial void OnUsr_ExperienceChanged();
+    partial void OnUsr_EconomySkillChanging(System.Nullable<double> value);
+    partial void OnUsr_EconomySkillChanged();
+    partial void OnUsr_FoodLimitChanging(System.Nullable<int> value);
+    partial void OnUsr_FoodLimitChanged();
+    partial void OnUsr_GiftLimitChanging(System.Nullable<int> value);
+    partial void OnUsr_GiftLimitChanged();
+    #endregion
+		
+		public tbl_USER()
+		{
+			this._tbl_Banks = new EntitySet<tbl_Bank>(new Action<tbl_Bank>(this.attach_tbl_Banks), new Action<tbl_Bank>(this.detach_tbl_Banks));
+			this._tbl_Companies = new EntitySet<tbl_Company>(new Action<tbl_Company>(this.attach_tbl_Companies), new Action<tbl_Company>(this.detach_tbl_Companies));
+			this._tbl_Inventories = new EntitySet<tbl_Inventory>(new Action<tbl_Inventory>(this.attach_tbl_Inventories), new Action<tbl_Inventory>(this.detach_tbl_Inventories));
+			this._tbl_Trainings = new EntitySet<tbl_Training>(new Action<tbl_Training>(this.attach_tbl_Trainings), new Action<tbl_Training>(this.detach_tbl_Trainings));
+			this._tbl_Country = default(EntityRef<tbl_Country>);
+			this._tbl_Region = default(EntityRef<tbl_Region>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Usr_id
+		{
+			get
+			{
+				return this._Usr_id;
+			}
+			set
+			{
+				if ((this._Usr_id != value))
+				{
+					this.OnUsr_idChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_id = value;
+					this.SendPropertyChanged("Usr_id");
+					this.OnUsr_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Name", DbType="NVarChar(50)")]
+		public string Usr_Name
+		{
+			get
+			{
+				return this._Usr_Name;
+			}
+			set
+			{
+				if ((this._Usr_Name != value))
+				{
+					this.OnUsr_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Name = value;
+					this.SendPropertyChanged("Usr_Name");
+					this.OnUsr_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Password", DbType="NVarChar(50)")]
+		public string Usr_Password
+		{
+			get
+			{
+				return this._Usr_Password;
+			}
+			set
+			{
+				if ((this._Usr_Password != value))
+				{
+					this.OnUsr_PasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Password = value;
+					this.SendPropertyChanged("Usr_Password");
+					this.OnUsr_PasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_BirthDay", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Usr_BirthDay
+		{
+			get
+			{
+				return this._Usr_BirthDay;
+			}
+			set
+			{
+				if ((this._Usr_BirthDay != value))
+				{
+					this.OnUsr_BirthDayChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_BirthDay = value;
+					this.SendPropertyChanged("Usr_BirthDay");
+					this.OnUsr_BirthDayChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TotalTrainingSessions", DbType="Int")]
+		public System.Nullable<int> Usr_TotalTrainingSessions
+		{
+			get
+			{
+				return this._Usr_TotalTrainingSessions;
+			}
+			set
+			{
+				if ((this._Usr_TotalTrainingSessions != value))
+				{
+					this.OnUsr_TotalTrainingSessionsChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_TotalTrainingSessions = value;
+					this.SendPropertyChanged("Usr_TotalTrainingSessions");
+					this.OnUsr_TotalTrainingSessionsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TotalDamageDone", DbType="Int")]
+		public System.Nullable<int> Usr_TotalDamageDone
+		{
+			get
+			{
+				return this._Usr_TotalDamageDone;
+			}
+			set
+			{
+				if ((this._Usr_TotalDamageDone != value))
+				{
+					this.OnUsr_TotalDamageDoneChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_TotalDamageDone = value;
+					this.SendPropertyChanged("Usr_TotalDamageDone");
+					this.OnUsr_TotalDamageDoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Strength", DbType="Int")]
+		public System.Nullable<int> Usr_Strength
+		{
+			get
+			{
+				return this._Usr_Strength;
+			}
+			set
+			{
+				if ((this._Usr_Strength != value))
+				{
+					this.OnUsr_StrengthChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Strength = value;
+					this.SendPropertyChanged("Usr_Strength");
+					this.OnUsr_StrengthChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Citizenship", DbType="Int")]
+		public System.Nullable<int> Usr_Citizenship
+		{
+			get
+			{
+				return this._Usr_Citizenship;
+			}
+			set
+			{
+				if ((this._Usr_Citizenship != value))
+				{
+					if (this._tbl_Country.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUsr_CitizenshipChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Citizenship = value;
+					this.SendPropertyChanged("Usr_Citizenship");
+					this.OnUsr_CitizenshipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int")]
+		public System.Nullable<int> Usr_Location
+		{
+			get
+			{
+				return this._Usr_Location;
+			}
+			set
+			{
+				if ((this._Usr_Location != value))
+				{
+					if (this._tbl_Region.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUsr_LocationChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Location = value;
+					this.SendPropertyChanged("Usr_Location");
+					this.OnUsr_LocationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Experience", DbType="Int")]
+		public System.Nullable<int> Usr_Experience
+		{
+			get
+			{
+				return this._Usr_Experience;
+			}
+			set
+			{
+				if ((this._Usr_Experience != value))
+				{
+					this.OnUsr_ExperienceChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_Experience = value;
+					this.SendPropertyChanged("Usr_Experience");
+					this.OnUsr_ExperienceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Float")]
+		public System.Nullable<double> Usr_EconomySkill
+		{
+			get
+			{
+				return this._Usr_EconomySkill;
+			}
+			set
+			{
+				if ((this._Usr_EconomySkill != value))
+				{
+					this.OnUsr_EconomySkillChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_EconomySkill = value;
+					this.SendPropertyChanged("Usr_EconomySkill");
+					this.OnUsr_EconomySkillChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_FoodLimit", DbType="Int")]
+		public System.Nullable<int> Usr_FoodLimit
+		{
+			get
+			{
+				return this._Usr_FoodLimit;
+			}
+			set
+			{
+				if ((this._Usr_FoodLimit != value))
+				{
+					this.OnUsr_FoodLimitChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_FoodLimit = value;
+					this.SendPropertyChanged("Usr_FoodLimit");
+					this.OnUsr_FoodLimitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_GiftLimit", DbType="Int")]
+		public System.Nullable<int> Usr_GiftLimit
+		{
+			get
+			{
+				return this._Usr_GiftLimit;
+			}
+			set
+			{
+				if ((this._Usr_GiftLimit != value))
+				{
+					this.OnUsr_GiftLimitChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_GiftLimit = value;
+					this.SendPropertyChanged("Usr_GiftLimit");
+					this.OnUsr_GiftLimitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_Banks", ThisKey="Usr_id", OtherKey="User_ID")]
+		public EntitySet<tbl_Bank> tbl_Banks
+		{
+			get
+			{
+				return this._tbl_Banks;
+			}
+			set
+			{
+				this._tbl_Banks.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Company", Storage="_tbl_Companies", ThisKey="Usr_id", OtherKey="User_OwnerID")]
+		public EntitySet<tbl_Company> tbl_Companies
+		{
+			get
+			{
+				return this._tbl_Companies;
+			}
+			set
+			{
+				this._tbl_Companies.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_Inventories", ThisKey="Usr_id", OtherKey="User_ID")]
+		public EntitySet<tbl_Inventory> tbl_Inventories
+		{
+			get
+			{
+				return this._tbl_Inventories;
+			}
+			set
+			{
+				this._tbl_Inventories.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Training", Storage="_tbl_Trainings", ThisKey="Usr_id", OtherKey="User_ID")]
+		public EntitySet<tbl_Training> tbl_Trainings
+		{
+			get
+			{
+				return this._tbl_Trainings;
+			}
+			set
+			{
+				this._tbl_Trainings.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_USER", Storage="_tbl_Country", ThisKey="Usr_Citizenship", OtherKey="Ctry_ID", IsForeignKey=true)]
+		public tbl_Country tbl_Country
+		{
+			get
+			{
+				return this._tbl_Country.Entity;
+			}
+			set
+			{
+				tbl_Country previousValue = this._tbl_Country.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Country.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Country.Entity = null;
+						previousValue.tbl_USERs.Remove(this);
+					}
+					this._tbl_Country.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_USERs.Add(this);
+						this._Usr_Citizenship = value.Ctry_ID;
+					}
+					else
+					{
+						this._Usr_Citizenship = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_Country");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Region_tbl_USER", Storage="_tbl_Region", ThisKey="Usr_Location", OtherKey="Region_ID", IsForeignKey=true)]
+		public tbl_Region tbl_Region
+		{
+			get
+			{
+				return this._tbl_Region.Entity;
+			}
+			set
+			{
+				tbl_Region previousValue = this._tbl_Region.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Region.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Region.Entity = null;
+						previousValue.tbl_USERs.Remove(this);
+					}
+					this._tbl_Region.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_USERs.Add(this);
+						this._Usr_Location = value.Region_ID;
+					}
+					else
+					{
+						this._Usr_Location = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_Region");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_Banks(tbl_Bank entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
+		}
+		
+		private void detach_tbl_Banks(tbl_Bank entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
+		}
+		
+		private void attach_tbl_Companies(tbl_Company entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
+		}
+		
+		private void detach_tbl_Companies(tbl_Company entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
+		}
+		
+		private void attach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
+		}
+		
+		private void detach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
+		}
+		
+		private void attach_tbl_Trainings(tbl_Training entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
+		}
+		
+		private void detach_tbl_Trainings(tbl_Training entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Workdays")]
+	public partial class tbl_Workday
+	{
+		
+		private int _Workday_ID;
+		
+		private int _User_ID;
+		
+		private System.DateTime _Workday_Date;
+		
+		private int _Company_ID;
+		
+		public tbl_Workday()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Workday_ID", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
+		public int Workday_ID
+		{
+			get
+			{
+				return this._Workday_ID;
+			}
+			set
+			{
+				if ((this._Workday_ID != value))
+				{
+					this._Workday_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
+		public int User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					this._User_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Workday_Date", DbType="Date NOT NULL")]
+		public System.DateTime Workday_Date
+		{
+			get
+			{
+				return this._Workday_Date;
+			}
+			set
+			{
+				if ((this._Workday_Date != value))
+				{
+					this._Workday_Date = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company_ID", DbType="Int NOT NULL")]
+		public int Company_ID
+		{
+			get
+			{
+				return this._Company_ID;
+			}
+			set
+			{
+				if ((this._Company_ID != value))
+				{
+					this._Company_ID = value;
+				}
 			}
 		}
 	}
