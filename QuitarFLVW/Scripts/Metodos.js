@@ -14,7 +14,11 @@ function fnTrain() {
 
 
 function fnWork() {
-    wsim.serviciosw.Work(fuWorkOnSuccessCallBack, ajaxErrorCallBack);
+    wsim.serviciosw.Work(fuOnSuccessCallBack, ajaxErrorCallBack);
+}
+
+function fnLogin() {
+    wsim.serviciosw.Login(fuOnSuccessCallBack, ajaxErrorCallBack);
 }
 
 function ajaxErrorCallBack(args) {
@@ -31,11 +35,6 @@ function fuTrainOnSuccessCallBack(args) {
     }
 }
 
-function fuWorkOnSuccessCallBack(args) {
-    if (args) {
-        ShowMessageBox("Wsim", "Trabajo correctamente vuelva mañana para volver a trabajar");
-    }
-    else {
-        ShowMessageBox("Wsim", "Ya trabajo por el dia de hoy comandante, se puede trabajar 1 vez cada 24 horas");
-    }
+function fuOnSuccessCallBack(args) {
+        ShowMessageBox("Wsim", args);
 }

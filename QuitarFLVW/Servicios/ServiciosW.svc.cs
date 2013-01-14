@@ -32,15 +32,18 @@ namespace QuitarFLVW
         }
 
         [OperationContract]
-        public bool Work()
+        public string Work()
         {
-            bool Trabajo = Metodos.Work();
-            if (Trabajo)
-                return true;
-            else
-                return false;
+            string Trabajo = Metodos.Work();
+            return Trabajo;
         }
 
-        // Add more operations here and mark them with [OperationContract]
+        [OperationContract]
+        public string Login()
+        {
+            string inicioSesion = Metodos.Login();
+            return inicioSesion;
+        }
+
     }
 }

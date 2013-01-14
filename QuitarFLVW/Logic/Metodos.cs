@@ -60,7 +60,7 @@ namespace QuitarFLVW.Logic
             return true;
         }
 
-        public static bool Work()
+        public static string Work()
         {
             var FechaHoy = DateTime.Now;
             SessionDBDataContext dbWsim = new SessionDBDataContext();
@@ -73,7 +73,7 @@ namespace QuitarFLVW.Logic
                                            && t.Workday_Date.Day == FechaHoy.Day
                                            && t.Workday_Date.Year == FechaHoy.Year
                                            select t.Workday_Date).Single();
-                return false;
+                return "Ya trabajo por el dia de hoy comandante, se puede trabajar 1 vez cada 24 horas";
             }
             catch (Exception) { }
             
@@ -128,7 +128,7 @@ namespace QuitarFLVW.Logic
                 if (restRaw.Invtry_Item_Quantity > cantidadProducir)
                     restRaw.Invtry_Item_Quantity -= cantidadProducir;
                 else//No tiene el raw necesario para producir el item
-                    return false;
+                    return "No tiene suficiente material de construccion";
 
                 var produceItem = (from r in dbWsim.tbl_Inventories
                                where r.User_ID == userInfo.User_OwnerID
@@ -162,7 +162,7 @@ namespace QuitarFLVW.Logic
                                      select t).Single();
                     paysalary.Bank_Quantity -= userInfo.Salary;
                 }
-                catch (Exception) { return false; }
+                catch (Exception) { return "The company doesnt have the resources to pay your salary"; }
 
                 var insertBank = (from t in dbWsim.tbl_Banks
                                   where t.User_ID == userInfo.User_ID
@@ -242,7 +242,12 @@ namespace QuitarFLVW.Logic
 
             dbWsim.tbl_Workdays.InsertOnSubmit(insertWorkDay);
             dbWsim.SubmitChanges();
-            return true;
+            return "Trabajo correctamente vuelva mañana para volver a trabajar";
+        }
+
+        public static string Login()
+        {
+            return null;
         }
     }
 }
