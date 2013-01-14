@@ -54,6 +54,9 @@ namespace QuitarFLVW.Data
     partial void Inserttbl_Training(tbl_Training instance);
     partial void Updatetbl_Training(tbl_Training instance);
     partial void Deletetbl_Training(tbl_Training instance);
+    partial void Inserttbl_Workday(tbl_Workday instance);
+    partial void Updatetbl_Workday(tbl_Workday instance);
+    partial void Deletetbl_Workday(tbl_Workday instance);
     partial void Inserttbl_USER(tbl_USER instance);
     partial void Updatetbl_USER(tbl_USER instance);
     partial void Deletetbl_USER(tbl_USER instance);
@@ -161,19 +164,19 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<tbl_USER> tbl_USERs
-		{
-			get
-			{
-				return this.GetTable<tbl_USER>();
-			}
-		}
-		
 		public System.Data.Linq.Table<tbl_Workday> tbl_Workdays
 		{
 			get
 			{
 				return this.GetTable<tbl_Workday>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_USER> tbl_USERs
+		{
+			get
+			{
+				return this.GetTable<tbl_USER>();
 			}
 		}
 		
@@ -347,7 +350,7 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Bank", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public tbl_USER tbl_USER
 		{
 			get
@@ -483,6 +486,8 @@ namespace QuitarFLVW.Data
 		
 		private int _Company_Level;
 		
+		private EntitySet<tbl_Workday> _tbl_Workdays;
+		
 		private EntityRef<tbl_USER> _tbl_USER;
 		
     #region Extensibility Method Definitions
@@ -505,6 +510,7 @@ namespace QuitarFLVW.Data
 		
 		public tbl_Company()
 		{
+			this._tbl_Workdays = new EntitySet<tbl_Workday>(new Action<tbl_Workday>(this.attach_tbl_Workdays), new Action<tbl_Workday>(this.detach_tbl_Workdays));
 			this._tbl_USER = default(EntityRef<tbl_USER>);
 			OnCreated();
 		}
@@ -633,7 +639,20 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Company", Storage="_tbl_USER", ThisKey="User_OwnerID", OtherKey="Usr_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Company_tbl_Workday", Storage="_tbl_Workdays", ThisKey="Compny_ID", OtherKey="Company_ID")]
+		public EntitySet<tbl_Workday> tbl_Workdays
+		{
+			get
+			{
+				return this._tbl_Workdays;
+			}
+			set
+			{
+				this._tbl_Workdays.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Company", Storage="_tbl_USER", ThisKey="User_OwnerID", OtherKey="Usr_id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public tbl_USER tbl_USER
 		{
 			get
@@ -685,6 +704,18 @@ namespace QuitarFLVW.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_tbl_Workdays(tbl_Workday entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Company = this;
+		}
+		
+		private void detach_tbl_Workdays(tbl_Workday entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Company = null;
 		}
 	}
 	
@@ -1015,7 +1046,7 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Inventory", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public tbl_USER tbl_USER
 		{
 			get
@@ -1621,7 +1652,7 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Training", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Training", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true, DeleteRule="CASCADE")]
 		public tbl_USER tbl_USER
 		{
 			get
@@ -1676,6 +1707,222 @@ namespace QuitarFLVW.Data
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Workdays")]
+	public partial class tbl_Workday : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Workday_ID;
+		
+		private int _User_ID;
+		
+		private System.DateTime _Workday_Date;
+		
+		private int _Company_ID;
+		
+		private EntityRef<tbl_Company> _tbl_Company;
+		
+		private EntityRef<tbl_USER> _tbl_USER;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnWorkday_IDChanging(int value);
+    partial void OnWorkday_IDChanged();
+    partial void OnUser_IDChanging(int value);
+    partial void OnUser_IDChanged();
+    partial void OnWorkday_DateChanging(System.DateTime value);
+    partial void OnWorkday_DateChanged();
+    partial void OnCompany_IDChanging(int value);
+    partial void OnCompany_IDChanged();
+    #endregion
+		
+		public tbl_Workday()
+		{
+			this._tbl_Company = default(EntityRef<tbl_Company>);
+			this._tbl_USER = default(EntityRef<tbl_USER>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Workday_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Workday_ID
+		{
+			get
+			{
+				return this._Workday_ID;
+			}
+			set
+			{
+				if ((this._Workday_ID != value))
+				{
+					this.OnWorkday_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Workday_ID = value;
+					this.SendPropertyChanged("Workday_ID");
+					this.OnWorkday_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
+		public int User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					if (this._tbl_USER.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUser_IDChanging(value);
+					this.SendPropertyChanging();
+					this._User_ID = value;
+					this.SendPropertyChanged("User_ID");
+					this.OnUser_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Workday_Date", DbType="Date NOT NULL")]
+		public System.DateTime Workday_Date
+		{
+			get
+			{
+				return this._Workday_Date;
+			}
+			set
+			{
+				if ((this._Workday_Date != value))
+				{
+					this.OnWorkday_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Workday_Date = value;
+					this.SendPropertyChanged("Workday_Date");
+					this.OnWorkday_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company_ID", DbType="Int NOT NULL")]
+		public int Company_ID
+		{
+			get
+			{
+				return this._Company_ID;
+			}
+			set
+			{
+				if ((this._Company_ID != value))
+				{
+					if (this._tbl_Company.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCompany_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Company_ID = value;
+					this.SendPropertyChanged("Company_ID");
+					this.OnCompany_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Company_tbl_Workday", Storage="_tbl_Company", ThisKey="Company_ID", OtherKey="Compny_ID", IsForeignKey=true)]
+		public tbl_Company tbl_Company
+		{
+			get
+			{
+				return this._tbl_Company.Entity;
+			}
+			set
+			{
+				tbl_Company previousValue = this._tbl_Company.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Company.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Company.Entity = null;
+						previousValue.tbl_Workdays.Remove(this);
+					}
+					this._tbl_Company.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Workdays.Add(this);
+						this._Company_ID = value.Compny_ID;
+					}
+					else
+					{
+						this._Company_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_Company");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Workday", Storage="_tbl_USER", ThisKey="User_ID", OtherKey="Usr_id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public tbl_USER tbl_USER
+		{
+			get
+			{
+				return this._tbl_USER.Entity;
+			}
+			set
+			{
+				tbl_USER previousValue = this._tbl_USER.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_USER.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_USER.Entity = null;
+						previousValue.tbl_Workdays.Remove(this);
+					}
+					this._tbl_USER.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Workdays.Add(this);
+						this._User_ID = value.Usr_id;
+					}
+					else
+					{
+						this._User_ID = default(int);
+					}
+					this.SendPropertyChanged("tbl_USER");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_USERS")]
 	public partial class tbl_USER : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1688,7 +1935,7 @@ namespace QuitarFLVW.Data
 		
 		private string _Usr_Password;
 		
-		private System.Nullable<System.DateTime> _Usr_BirthDay;
+		private System.DateTime _Usr_BirthDay;
 		
 		private System.Nullable<int> _Usr_TotalTrainingSessions;
 		
@@ -1696,17 +1943,23 @@ namespace QuitarFLVW.Data
 		
 		private System.Nullable<int> _Usr_Strength;
 		
-		private System.Nullable<int> _Usr_Citizenship;
+		private int _Usr_Citizenship;
 		
-		private System.Nullable<int> _Usr_Location;
+		private int _Usr_Location;
 		
 		private System.Nullable<int> _Usr_Experience;
 		
-		private System.Nullable<double> _Usr_EconomySkill;
+		private System.Nullable<int> _Usr_EconomySkill;
+		
+		private string _Usr_TitleJob;
 		
 		private System.Nullable<int> _Usr_FoodLimit;
 		
 		private System.Nullable<int> _Usr_GiftLimit;
+		
+		private System.Nullable<int> _Usr_TrainDaysInRow;
+		
+		private System.Nullable<int> _Usr_WorkDaysInRow;
 		
 		private EntitySet<tbl_Bank> _tbl_Banks;
 		
@@ -1715,6 +1968,8 @@ namespace QuitarFLVW.Data
 		private EntitySet<tbl_Inventory> _tbl_Inventories;
 		
 		private EntitySet<tbl_Training> _tbl_Trainings;
+		
+		private EntitySet<tbl_Workday> _tbl_Workdays;
 		
 		private EntityRef<tbl_Country> _tbl_Country;
 		
@@ -1730,7 +1985,7 @@ namespace QuitarFLVW.Data
     partial void OnUsr_NameChanged();
     partial void OnUsr_PasswordChanging(string value);
     partial void OnUsr_PasswordChanged();
-    partial void OnUsr_BirthDayChanging(System.Nullable<System.DateTime> value);
+    partial void OnUsr_BirthDayChanging(System.DateTime value);
     partial void OnUsr_BirthDayChanged();
     partial void OnUsr_TotalTrainingSessionsChanging(System.Nullable<int> value);
     partial void OnUsr_TotalTrainingSessionsChanged();
@@ -1738,18 +1993,24 @@ namespace QuitarFLVW.Data
     partial void OnUsr_TotalDamageDoneChanged();
     partial void OnUsr_StrengthChanging(System.Nullable<int> value);
     partial void OnUsr_StrengthChanged();
-    partial void OnUsr_CitizenshipChanging(System.Nullable<int> value);
+    partial void OnUsr_CitizenshipChanging(int value);
     partial void OnUsr_CitizenshipChanged();
-    partial void OnUsr_LocationChanging(System.Nullable<int> value);
+    partial void OnUsr_LocationChanging(int value);
     partial void OnUsr_LocationChanged();
     partial void OnUsr_ExperienceChanging(System.Nullable<int> value);
     partial void OnUsr_ExperienceChanged();
-    partial void OnUsr_EconomySkillChanging(System.Nullable<double> value);
+    partial void OnUsr_EconomySkillChanging(System.Nullable<int> value);
     partial void OnUsr_EconomySkillChanged();
+    partial void OnUsr_TitleJobChanging(string value);
+    partial void OnUsr_TitleJobChanged();
     partial void OnUsr_FoodLimitChanging(System.Nullable<int> value);
     partial void OnUsr_FoodLimitChanged();
     partial void OnUsr_GiftLimitChanging(System.Nullable<int> value);
     partial void OnUsr_GiftLimitChanged();
+    partial void OnUsr_TrainDaysInRowChanging(System.Nullable<int> value);
+    partial void OnUsr_TrainDaysInRowChanged();
+    partial void OnUsr_WorkDaysInRowChanging(System.Nullable<int> value);
+    partial void OnUsr_WorkDaysInRowChanged();
     #endregion
 		
 		public tbl_USER()
@@ -1758,6 +2019,7 @@ namespace QuitarFLVW.Data
 			this._tbl_Companies = new EntitySet<tbl_Company>(new Action<tbl_Company>(this.attach_tbl_Companies), new Action<tbl_Company>(this.detach_tbl_Companies));
 			this._tbl_Inventories = new EntitySet<tbl_Inventory>(new Action<tbl_Inventory>(this.attach_tbl_Inventories), new Action<tbl_Inventory>(this.detach_tbl_Inventories));
 			this._tbl_Trainings = new EntitySet<tbl_Training>(new Action<tbl_Training>(this.attach_tbl_Trainings), new Action<tbl_Training>(this.detach_tbl_Trainings));
+			this._tbl_Workdays = new EntitySet<tbl_Workday>(new Action<tbl_Workday>(this.attach_tbl_Workdays), new Action<tbl_Workday>(this.detach_tbl_Workdays));
 			this._tbl_Country = default(EntityRef<tbl_Country>);
 			this._tbl_Region = default(EntityRef<tbl_Region>);
 			OnCreated();
@@ -1783,7 +2045,7 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Name", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string Usr_Name
 		{
 			get
@@ -1803,7 +2065,7 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Password", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Password", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string Usr_Password
 		{
 			get
@@ -1823,8 +2085,8 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_BirthDay", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Usr_BirthDay
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_BirthDay", DbType="DateTime NOT NULL")]
+		public System.DateTime Usr_BirthDay
 		{
 			get
 			{
@@ -1903,8 +2165,8 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Citizenship", DbType="Int")]
-		public System.Nullable<int> Usr_Citizenship
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Citizenship", DbType="Int NOT NULL")]
+		public int Usr_Citizenship
 		{
 			get
 			{
@@ -1927,8 +2189,8 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int")]
-		public System.Nullable<int> Usr_Location
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int NOT NULL")]
+		public int Usr_Location
 		{
 			get
 			{
@@ -1971,8 +2233,8 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Float")]
-		public System.Nullable<double> Usr_EconomySkill
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Int")]
+		public System.Nullable<int> Usr_EconomySkill
 		{
 			get
 			{
@@ -1987,6 +2249,26 @@ namespace QuitarFLVW.Data
 					this._Usr_EconomySkill = value;
 					this.SendPropertyChanged("Usr_EconomySkill");
 					this.OnUsr_EconomySkillChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TitleJob", DbType="NVarChar(50)")]
+		public string Usr_TitleJob
+		{
+			get
+			{
+				return this._Usr_TitleJob;
+			}
+			set
+			{
+				if ((this._Usr_TitleJob != value))
+				{
+					this.OnUsr_TitleJobChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_TitleJob = value;
+					this.SendPropertyChanged("Usr_TitleJob");
+					this.OnUsr_TitleJobChanged();
 				}
 			}
 		}
@@ -2027,6 +2309,46 @@ namespace QuitarFLVW.Data
 					this._Usr_GiftLimit = value;
 					this.SendPropertyChanged("Usr_GiftLimit");
 					this.OnUsr_GiftLimitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TrainDaysInRow", DbType="Int")]
+		public System.Nullable<int> Usr_TrainDaysInRow
+		{
+			get
+			{
+				return this._Usr_TrainDaysInRow;
+			}
+			set
+			{
+				if ((this._Usr_TrainDaysInRow != value))
+				{
+					this.OnUsr_TrainDaysInRowChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_TrainDaysInRow = value;
+					this.SendPropertyChanged("Usr_TrainDaysInRow");
+					this.OnUsr_TrainDaysInRowChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_WorkDaysInRow", DbType="Int")]
+		public System.Nullable<int> Usr_WorkDaysInRow
+		{
+			get
+			{
+				return this._Usr_WorkDaysInRow;
+			}
+			set
+			{
+				if ((this._Usr_WorkDaysInRow != value))
+				{
+					this.OnUsr_WorkDaysInRowChanging(value);
+					this.SendPropertyChanging();
+					this._Usr_WorkDaysInRow = value;
+					this.SendPropertyChanged("Usr_WorkDaysInRow");
+					this.OnUsr_WorkDaysInRowChanged();
 				}
 			}
 		}
@@ -2083,6 +2405,19 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_USER_tbl_Workday", Storage="_tbl_Workdays", ThisKey="Usr_id", OtherKey="User_ID")]
+		public EntitySet<tbl_Workday> tbl_Workdays
+		{
+			get
+			{
+				return this._tbl_Workdays;
+			}
+			set
+			{
+				this._tbl_Workdays.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Country_tbl_USER", Storage="_tbl_Country", ThisKey="Usr_Citizenship", OtherKey="Ctry_ID", IsForeignKey=true)]
 		public tbl_Country tbl_Country
 		{
@@ -2110,7 +2445,7 @@ namespace QuitarFLVW.Data
 					}
 					else
 					{
-						this._Usr_Citizenship = default(Nullable<int>);
+						this._Usr_Citizenship = default(int);
 					}
 					this.SendPropertyChanged("tbl_Country");
 				}
@@ -2144,7 +2479,7 @@ namespace QuitarFLVW.Data
 					}
 					else
 					{
-						this._Usr_Location = default(Nullable<int>);
+						this._Usr_Location = default(int);
 					}
 					this.SendPropertyChanged("tbl_Region");
 				}
@@ -2218,86 +2553,17 @@ namespace QuitarFLVW.Data
 			this.SendPropertyChanging();
 			entity.tbl_USER = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Workdays")]
-	public partial class tbl_Workday
-	{
 		
-		private int _Workday_ID;
-		
-		private int _User_ID;
-		
-		private System.DateTime _Workday_Date;
-		
-		private int _Company_ID;
-		
-		public tbl_Workday()
+		private void attach_tbl_Workdays(tbl_Workday entity)
 		{
+			this.SendPropertyChanging();
+			entity.tbl_USER = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Workday_ID", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
-		public int Workday_ID
+		private void detach_tbl_Workdays(tbl_Workday entity)
 		{
-			get
-			{
-				return this._Workday_ID;
-			}
-			set
-			{
-				if ((this._Workday_ID != value))
-				{
-					this._Workday_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
-		public int User_ID
-		{
-			get
-			{
-				return this._User_ID;
-			}
-			set
-			{
-				if ((this._User_ID != value))
-				{
-					this._User_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Workday_Date", DbType="Date NOT NULL")]
-		public System.DateTime Workday_Date
-		{
-			get
-			{
-				return this._Workday_Date;
-			}
-			set
-			{
-				if ((this._Workday_Date != value))
-				{
-					this._Workday_Date = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company_ID", DbType="Int NOT NULL")]
-		public int Company_ID
-		{
-			get
-			{
-				return this._Company_ID;
-			}
-			set
-			{
-				if ((this._Company_ID != value))
-				{
-					this._Company_ID = value;
-				}
-			}
+			this.SendPropertyChanging();
+			entity.tbl_USER = null;
 		}
 	}
 	
@@ -2317,7 +2583,7 @@ namespace QuitarFLVW.Data
 		
 		private decimal _Salary;
 		
-		private int _Item_ID;
+		private int _ItemToProduceID;
 		
 		private System.Nullable<decimal> _Bank_Quantity;
 		
@@ -2326,8 +2592,6 @@ namespace QuitarFLVW.Data
 		private System.Nullable<int> _Bank_ID;
 		
 		private int _Usr_Location;
-		
-		private System.Nullable<double> _Usr_EconomySkill;
 		
 		private int _User_ID;
 		
@@ -2338,6 +2602,12 @@ namespace QuitarFLVW.Data
 		private System.Nullable<int> _MnyTypeID;
 		
 		private System.Nullable<int> _MnyTypeCountryID;
+		
+		private System.Nullable<int> _Usr_EconomySkill;
+		
+		private int _User_OwnerID;
+		
+		private System.Nullable<int> _ItemIDRawProduce;
 		
 		public View_UserInfo()
 		{
@@ -2439,18 +2709,18 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_ID", DbType="Int NOT NULL")]
-		public int Item_ID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemToProduceID", DbType="Int NOT NULL")]
+		public int ItemToProduceID
 		{
 			get
 			{
-				return this._Item_ID;
+				return this._ItemToProduceID;
 			}
 			set
 			{
-				if ((this._Item_ID != value))
+				if ((this._ItemToProduceID != value))
 				{
-					this._Item_ID = value;
+					this._ItemToProduceID = value;
 				}
 			}
 		}
@@ -2515,22 +2785,6 @@ namespace QuitarFLVW.Data
 				if ((this._Usr_Location != value))
 				{
 					this._Usr_Location = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Float")]
-		public System.Nullable<double> Usr_EconomySkill
-		{
-			get
-			{
-				return this._Usr_EconomySkill;
-			}
-			set
-			{
-				if ((this._Usr_EconomySkill != value))
-				{
-					this._Usr_EconomySkill = value;
 				}
 			}
 		}
@@ -2611,6 +2865,54 @@ namespace QuitarFLVW.Data
 				if ((this._MnyTypeCountryID != value))
 				{
 					this._MnyTypeCountryID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Int")]
+		public System.Nullable<int> Usr_EconomySkill
+		{
+			get
+			{
+				return this._Usr_EconomySkill;
+			}
+			set
+			{
+				if ((this._Usr_EconomySkill != value))
+				{
+					this._Usr_EconomySkill = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_OwnerID", DbType="Int NOT NULL")]
+		public int User_OwnerID
+		{
+			get
+			{
+				return this._User_OwnerID;
+			}
+			set
+			{
+				if ((this._User_OwnerID != value))
+				{
+					this._User_OwnerID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemIDRawProduce", DbType="Int")]
+		public System.Nullable<int> ItemIDRawProduce
+		{
+			get
+			{
+				return this._ItemIDRawProduce;
+			}
+			set
+			{
+				if ((this._ItemIDRawProduce != value))
+				{
+					this._ItemIDRawProduce = value;
 				}
 			}
 		}

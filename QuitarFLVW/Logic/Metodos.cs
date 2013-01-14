@@ -68,7 +68,7 @@ namespace QuitarFLVW.Logic
             try
             {
                 var ConsultaSiYaTrabajo = (from t in dbWsim.tbl_Workdays
-                                           where t.User_ID == 6
+                                           where t.User_ID == 8
                                            && t.Workday_Date.Month == FechaHoy.Month
                                            && t.Workday_Date.Day == FechaHoy.Day
                                            && t.Workday_Date.Year == FechaHoy.Year
@@ -79,15 +79,109 @@ namespace QuitarFLVW.Logic
             
 
             var userInfo = (from t in dbWsim.View_UserInfos
-                                       where t.User_ID == 6
-                                       select t).Single();
+                                       where t.User_ID == 8
+                                      select t).Single();
+            int cantidadProducir = 0;
 
-            var insertBank = (from t in dbWsim.tbl_Banks
-                               where t.User_ID == userInfo.User_ID
-                               select t).Single();
-            insertBank.Mny_ID = Convert.ToInt32(userInfo.MnyTypeCountryID);
-            insertBank.Bank_Quantity += userInfo.Salary;
+            switch (userInfo.Usr_EconomySkill)
+            {
+                case 1:
+                    cantidadProducir = 100;
+                    break;
+                case 2:
+                    cantidadProducir = 120;
+                    break;
+                case 3:
+                    cantidadProducir = 140;
+                    break;
+                case 4:
+                    cantidadProducir = 160;
+                    break;
+                case 5:
+                    cantidadProducir = 180;
+                    break;
+                case 6:
+                    cantidadProducir = 200;
+                    break;
+                case 7:
+                    cantidadProducir = 220;
+                    break;
+                case 8:
+                    cantidadProducir = 240;
+                    break;
+                case 9:
+                    cantidadProducir = 260;
+                    break;
+                default:
+                    cantidadProducir = 100;
+                    break;
+            }
+           
+            //Se resta el raw de la tabla inventarios que se cambia por el item  a producir
+            try
+            {
+                var restRaw = (from r in dbWsim.tbl_Inventories
+                               where r.User_ID == userInfo.User_OwnerID
+                               && r.Item_ID == userInfo.ItemIDRawProduce
+                               && r.Invtry_Item_Quality == userInfo.Company_Level
+                               select r).Single();
+                if (restRaw.Invtry_Item_Quantity > cantidadProducir)
+                    restRaw.Invtry_Item_Quantity -= cantidadProducir;
+                else//No tiene el raw necesario para producir el item
+                    return false;
 
+                var produceItem = (from r in dbWsim.tbl_Inventories
+                               where r.User_ID == userInfo.User_OwnerID
+                               && r.Item_ID == userInfo.ItemToProduceID
+                               && r.Invtry_Item_Quality == userInfo.Company_Level
+                               select r).Single();
+                produceItem.Invtry_Item_Quantity += cantidadProducir;
+
+                dbWsim.SubmitChanges();
+            }
+            catch (Exception)
+            {
+                tbl_Inventory insertInvetry = new tbl_Inventory();
+                insertInvetry.User_ID = userInfo.User_OwnerID;
+                insertInvetry.Invtry_Item_Quantity += cantidadProducir;
+                insertInvetry.Item_ID = userInfo.ItemToProduceID;
+                insertInvetry.Invtry_Item_Quality = userInfo.Company_Level;
+                dbWsim.tbl_Inventories.InsertOnSubmit(insertInvetry);
+                dbWsim.SubmitChanges();
+            }
+
+            //El salario del empleado faltan los impuestos
+            try
+            {
+                try
+                {
+                    var paysalary = (from t in dbWsim.tbl_Banks
+                                     where t.User_ID == userInfo.User_OwnerID
+                                     && t.Mny_ID == userInfo.MnyTypeID
+                                     && t.Bank_Quantity > userInfo.Salary
+                                     select t).Single();
+                    paysalary.Bank_Quantity -= userInfo.Salary;
+                }
+                catch (Exception) { return false; }
+
+                var insertBank = (from t in dbWsim.tbl_Banks
+                                  where t.User_ID == userInfo.User_ID
+                                  && t.Mny_ID == userInfo.MnyTypeID
+                                  select t).Single();
+                insertBank.Bank_Quantity += userInfo.Salary;
+
+                
+            }
+            catch (Exception)
+            {
+                tbl_Bank banc = new tbl_Bank();
+                banc.Bank_Quantity = userInfo.Salary;
+                banc.Mny_ID = Convert.ToInt32(userInfo.MnyTypeID);
+                banc.User_ID = userInfo.User_ID;
+                dbWsim.tbl_Banks.InsertOnSubmit(banc);
+                dbWsim.SubmitChanges();
+            }
+                
             var insertUsers = (from t in dbWsim.tbl_USERs
                             where t.Usr_id == userInfo.User_ID
                             select t).Single();
@@ -101,56 +195,54 @@ namespace QuitarFLVW.Logic
 
 
             int consultCuantasVecesTrabajado = (from t in dbWsim.tbl_Workdays
-                                                where t.User_ID == 6
+                                                where t.User_ID == userInfo.User_ID
                                                 select t).Count();
             switch (consultCuantasVecesTrabajado)
             {
-                case 0: 
-                    userInfo.Usr_EconomySkill = 1;
-                    userInfo.Usr_TitleJob = "Assistant";
+                case 0:
+                    insertUsers.Usr_EconomySkill = 1;
+                    insertUsers.Usr_TitleJob = "Assistant";
                     break;
-                case 2: 
-                    userInfo.Usr_EconomySkill = 2;
-                    userInfo.Usr_TitleJob = "Junior";
+                case 2:
+                    insertUsers.Usr_EconomySkill = 2;
+                    insertUsers.Usr_TitleJob = "Junior";
                     break;
-                case 4: 
-                    userInfo.Usr_EconomySkill = 3;
-                    userInfo.Usr_TitleJob = "Senior";
+                case 4:
+                    insertUsers.Usr_EconomySkill = 3;
+                    insertUsers.Usr_TitleJob = "Senior";
                     break;
-                case 15: 
-                    userInfo.Usr_EconomySkill = 4;
-                    userInfo.Usr_TitleJob = "Coordinator";
+                case 15:
+                    insertUsers.Usr_EconomySkill = 4;
+                    insertUsers.Usr_TitleJob = "Coordinator";
                     break;
-                case 23: 
-                    userInfo.Usr_EconomySkill = 5;
-                    userInfo.Usr_TitleJob = "Specialist";
+                case 23:
+                    insertUsers.Usr_EconomySkill = 5;
+                    insertUsers.Usr_TitleJob = "Specialist";
                     break;
-                case 32: 
-                    userInfo.Usr_EconomySkill = 6;
-                    userInfo.Usr_TitleJob = "Expert";
+                case 32:
+                    insertUsers.Usr_EconomySkill = 6;
+                    insertUsers.Usr_TitleJob = "Expert";
                     break;
-                case 54: 
-                    userInfo.Usr_EconomySkill = 7;
-                    userInfo.Usr_TitleJob = "Master";
+                case 54:
+                    insertUsers.Usr_EconomySkill = 7;
+                    insertUsers.Usr_TitleJob = "Master";
                     break;
-                case 95: 
-                    userInfo.Usr_EconomySkill = 8;
-                    userInfo.Usr_TitleJob = "Guru";
+                case 95:
+                    insertUsers.Usr_EconomySkill = 8;
+                    insertUsers.Usr_TitleJob = "Guru";
                     break;
-                case 168: 
-                    userInfo.Usr_EconomySkill = 9;
-                    userInfo.Usr_TitleJob = "Guru *";
+                case 168:
+                    insertUsers.Usr_EconomySkill = 9;
+                    insertUsers.Usr_TitleJob = "Guru *";
                     break;
                 default:
 
                     break;
             }
 
-            dbWsim.tbl_USERs.InsertOnSubmit(insertUsers);
-            dbWsim.View_UserInfos.InsertOnSubmit(userInfo);
             dbWsim.tbl_Workdays.InsertOnSubmit(insertWorkDay);
             dbWsim.SubmitChanges();
-            return false;
+            return true;
         }
     }
 }

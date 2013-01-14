@@ -7,7 +7,7 @@
       <Column Name="Mny_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Bank_Quantity" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
       <Association Name="tbl_Money_Type_tbl_Bank" Member="tbl_Money_Type" ThisKey="Mny_ID" OtherKey="Mny_ID" Type="tbl_Money_Type" IsForeignKey="true" />
-      <Association Name="tbl_USER_tbl_Bank" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
+      <Association Name="tbl_USER_tbl_Bank" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.tbl_Workers" Member="tbl_Workers">
@@ -16,7 +16,7 @@
       <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Salary" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
       <Association Name="tbl_Company_tbl_Worker" Member="tbl_Company" ThisKey="Compny_ID" OtherKey="Compny_ID" Type="tbl_Company" IsForeignKey="true" />
-      <Association Name="tbl_USER_tbl_Worker" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
+      <Association Name="tbl_USER_tbl_Worker" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.tbl_Companies" Member="tbl_Companies">
@@ -29,7 +29,7 @@
       <Column Name="Company_Level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="tbl_Company_tbl_Worker" Member="tbl_Workers" ThisKey="Compny_ID" OtherKey="Compny_ID" Type="tbl_Worker" />
       <Association Name="tbl_Company_tbl_Workday" Member="tbl_Workdays" ThisKey="Compny_ID" OtherKey="Company_ID" Type="tbl_Workday" />
-      <Association Name="tbl_USER_tbl_Company" Member="tbl_USER" ThisKey="User_OwnerID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
+      <Association Name="tbl_USER_tbl_Company" Member="tbl_USER" ThisKey="User_OwnerID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.tbl_Countries" Member="tbl_Countries">
@@ -48,7 +48,7 @@
       <Column Name="Item_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Invtry_Item_Quality" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="tbl_Item_tbl_Inventory" Member="tbl_Item" ThisKey="Item_ID" OtherKey="Item_ID" Type="tbl_Item" IsForeignKey="true" />
-      <Association Name="tbl_USER_tbl_Inventory" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
+      <Association Name="tbl_USER_tbl_Inventory" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.tbl_Items" Member="tbl_Items">
@@ -81,24 +81,37 @@
       <Column Name="Train_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Train_Date" Type="System.DateTime" DbType="SmallDateTime NOT NULL" CanBeNull="false" />
       <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="tbl_USER_tbl_Training" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
+      <Association Name="tbl_USER_tbl_Training" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Workdays" Member="tbl_Workdays">
+    <Type Name="tbl_Workday">
+      <Column Name="Workday_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Workday_Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Company_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_Company_tbl_Workday" Member="tbl_Company" ThisKey="Company_ID" OtherKey="Compny_ID" Type="tbl_Company" IsForeignKey="true" />
+      <Association Name="tbl_USER_tbl_Workday" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.tbl_USERS" Member="tbl_USERs">
     <Type Name="tbl_USER">
       <Column Name="Usr_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Usr_Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Usr_Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Usr_BirthDay" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Usr_Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Usr_Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Usr_BirthDay" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Usr_TotalTrainingSessions" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Usr_TotalDamageDone" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Usr_Strength" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Usr_Citizenship" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Usr_Location" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_Citizenship" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Usr_Location" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Usr_Experience" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Usr_EconomySkill" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Usr_EconomySkill" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_TitleJob" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Usr_FoodLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Usr_GiftLimit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_TrainDaysInRow" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_WorkDaysInRow" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="tbl_USER_tbl_Bank" Member="tbl_Banks" ThisKey="Usr_id" OtherKey="User_ID" Type="tbl_Bank" />
       <Association Name="tbl_USER_tbl_Worker" Member="tbl_Workers" ThisKey="Usr_id" OtherKey="User_ID" Type="tbl_Worker" />
       <Association Name="tbl_USER_tbl_Company" Member="tbl_Companies" ThisKey="Usr_id" OtherKey="User_OwnerID" Type="tbl_Company" />
@@ -109,16 +122,6 @@
       <Association Name="tbl_Region_tbl_USER" Member="tbl_Region" ThisKey="Usr_Location" OtherKey="Region_ID" Type="tbl_Region" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.tbl_Workdays" Member="tbl_Workdays">
-    <Type Name="tbl_Workday">
-      <Column Name="Workday_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Workday_Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="Company_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="tbl_Company_tbl_Workday" Member="tbl_Company" ThisKey="Company_ID" OtherKey="Compny_ID" Type="tbl_Company" IsForeignKey="true" />
-      <Association Name="tbl_USER_tbl_Workday" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.View_UserInfo" Member="View_UserInfos">
     <Type Name="View_UserInfo">
       <Column Name="Compny_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -127,17 +130,19 @@
       <Column Name="Usr_Experience" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Company_Level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Salary" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
-      <Column Name="Item_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ItemToProduceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Bank_Quantity" Type="System.Decimal" DbType="Money" CanBeNull="true" />
       <Column Name="Mny_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Bank_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Usr_Location" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Usr_EconomySkill" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Usr_TitleJob" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Usr_Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="MnyTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="MnyTypeCountryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_EconomySkill" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="User_OwnerID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ItemIDRawProduce" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
