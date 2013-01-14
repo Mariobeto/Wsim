@@ -16,7 +16,7 @@ namespace QuitarFLVW.Logic
             try
             {
                 var ConsultaSiYaEntreno = (from t in db.tbl_Trainings
-                                           where t.User_ID == 6
+                                           where t.User_ID == 8
                                            && t.Train_Date.Month == FechaHoy.Month
                                            && t.Train_Date.Day == FechaHoy.Day
                                            && t.Train_Date.Year == FechaHoy.Year
@@ -25,7 +25,7 @@ namespace QuitarFLVW.Logic
             }
             catch(Exception){}
             var PuntosGanados = (from u in db.tbl_USERs
-                                 where u.Usr_id == 6
+                                 where u.Usr_id == 8
                                      select u).ToList().Single();
             int totalSesiones = Convert.ToInt32(PuntosGanados.Usr_TotalTrainingSessions);
 
@@ -52,7 +52,7 @@ namespace QuitarFLVW.Logic
             PuntosGanados.Usr_Experience += 2;
 
             tbl_Training tra = new tbl_Training();
-            tra.User_ID = 6;
+            tra.User_ID = 8;
             tra.Train_Date = DateTime.Now;
 
             db.tbl_Trainings.InsertOnSubmit(tra);
@@ -68,7 +68,7 @@ namespace QuitarFLVW.Logic
             try
             {
                 var ConsultaSiYaTrabajo = (from t in dbWsim.tbl_Workdays
-                                           where t.User_ID == 8
+                                           where t.User_ID == 6
                                            && t.Workday_Date.Month == FechaHoy.Month
                                            && t.Workday_Date.Day == FechaHoy.Day
                                            && t.Workday_Date.Year == FechaHoy.Year
@@ -79,7 +79,7 @@ namespace QuitarFLVW.Logic
             
 
             var userInfo = (from t in dbWsim.View_UserInfos
-                                       where t.User_ID == 8
+                                       where t.User_ID == 6
                                       select t).Single();
             int cantidadProducir = 0;
 
