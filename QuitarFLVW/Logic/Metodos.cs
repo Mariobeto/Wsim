@@ -52,7 +52,7 @@ namespace QuitarFLVW.Logic
             PuntosGanados.Usr_Experience += 2;
 
             tbl_Training tra = new tbl_Training();
-            tra.User_ID = 1;
+            tra.User_ID = 6;
             tra.Train_Date = DateTime.Now;
 
             db.tbl_Trainings.InsertOnSubmit(tra);
@@ -63,11 +63,11 @@ namespace QuitarFLVW.Logic
         public static bool Work()
         {
             var FechaHoy = DateTime.Now;
-            SessionDBDataContext db = new SessionDBDataContext();
+            SessionDBDataContext dbWsim = new SessionDBDataContext();
 
             try
             {
-                var ConsultaSiYaTrabajo = (from t in db.tbl_Workdays
+                var ConsultaSiYaTrabajo = (from t in dbWsim.tbl_Workdays
                                            where t.User_ID == 6
                                            && t.Workday_Date.Month == FechaHoy.Month
                                            && t.Workday_Date.Day == FechaHoy.Day
@@ -76,29 +76,80 @@ namespace QuitarFLVW.Logic
                 return false;
             }
             catch (Exception) { }
-            //El salario de la compañia en la que trabaja
-            var ConsultaSalarioCompny = (from t in db.tbl_Workers
-                                      where t.User_ID == 6
-                                      select t).Single();
-            //Se consulta la compañia en la que trabaja
-            var CmnyEnLaqTrabaja = (from t in db.tbl_Companies
-                           where t.Compny_ID == ConsultaSalarioCompny.Compny_ID
-                                   select t).Single();
+            
 
-            //Se le va a pagar su salario 
-            var Pagar = (from t in db.tbl_Banks
-                         where t.User_ID == 6
-                         && t.Mny_ID == CmnyEnLaqTrabaja.Country_ID
-                         select t).Single();
-            Pagar.Bank_Quantity += ConsultaSalarioCompny.Salary;
-
-
-            var Usuario = (from t in db.tbl_USERs
-                                       where t.Usr_id == 6
+            var userInfo = (from t in dbWsim.View_UserInfos
+                                       where t.User_ID == 6
                                        select t).Single();
-            Usuario.Usr_Experience += 5;
+
+            var insertBank = (from t in dbWsim.tbl_Banks
+                               where t.User_ID == userInfo.User_ID
+                               select t).Single();
+            insertBank.Mny_ID = Convert.ToInt32(userInfo.MnyTypeCountryID);
+            insertBank.Bank_Quantity += userInfo.Salary;
+
+            var insertUsers = (from t in dbWsim.tbl_USERs
+                            where t.Usr_id == userInfo.User_ID
+                            select t).Single();
+            insertUsers.Usr_Experience += 2;
+           
+
+            tbl_Workday insertWorkDay = new tbl_Workday();
+            insertWorkDay.Company_ID = userInfo.Compny_ID;
+            insertWorkDay.User_ID = userInfo.User_ID;
+            insertWorkDay.Workday_Date = FechaHoy;
 
 
+            int consultCuantasVecesTrabajado = (from t in dbWsim.tbl_Workdays
+                                                where t.User_ID == 6
+                                                select t).Count();
+            switch (consultCuantasVecesTrabajado)
+            {
+                case 0: 
+                    userInfo.Usr_EconomySkill = 1;
+                    userInfo.Usr_TitleJob = "Assistant";
+                    break;
+                case 2: 
+                    userInfo.Usr_EconomySkill = 2;
+                    userInfo.Usr_TitleJob = "Junior";
+                    break;
+                case 4: 
+                    userInfo.Usr_EconomySkill = 3;
+                    userInfo.Usr_TitleJob = "Senior";
+                    break;
+                case 15: 
+                    userInfo.Usr_EconomySkill = 4;
+                    userInfo.Usr_TitleJob = "Coordinator";
+                    break;
+                case 23: 
+                    userInfo.Usr_EconomySkill = 5;
+                    userInfo.Usr_TitleJob = "Specialist";
+                    break;
+                case 32: 
+                    userInfo.Usr_EconomySkill = 6;
+                    userInfo.Usr_TitleJob = "Expert";
+                    break;
+                case 54: 
+                    userInfo.Usr_EconomySkill = 7;
+                    userInfo.Usr_TitleJob = "Master";
+                    break;
+                case 95: 
+                    userInfo.Usr_EconomySkill = 8;
+                    userInfo.Usr_TitleJob = "Guru";
+                    break;
+                case 168: 
+                    userInfo.Usr_EconomySkill = 9;
+                    userInfo.Usr_TitleJob = "Guru *";
+                    break;
+                default:
+
+                    break;
+            }
+
+            dbWsim.tbl_USERs.InsertOnSubmit(insertUsers);
+            dbWsim.View_UserInfos.InsertOnSubmit(userInfo);
+            dbWsim.tbl_Workdays.InsertOnSubmit(insertWorkDay);
+            dbWsim.SubmitChanges();
             return false;
         }
     }

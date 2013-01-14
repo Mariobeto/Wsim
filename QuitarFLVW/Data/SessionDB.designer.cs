@@ -176,6 +176,14 @@ namespace QuitarFLVW.Data
 				return this.GetTable<tbl_Workday>();
 			}
 		}
+		
+		public System.Data.Linq.Table<View_UserInfo> View_UserInfos
+		{
+			get
+			{
+				return this.GetTable<View_UserInfo>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Bank")]
@@ -2288,6 +2296,321 @@ namespace QuitarFLVW.Data
 				if ((this._Company_ID != value))
 				{
 					this._Company_ID = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.View_UserInfo")]
+	public partial class View_UserInfo
+	{
+		
+		private int _Compny_ID;
+		
+		private int _Country_ID;
+		
+		private System.Nullable<int> _Usr_WorkDaysInRow;
+		
+		private System.Nullable<int> _Usr_Experience;
+		
+		private int _Company_Level;
+		
+		private decimal _Salary;
+		
+		private int _Item_ID;
+		
+		private System.Nullable<decimal> _Bank_Quantity;
+		
+		private System.Nullable<int> _Mny_ID;
+		
+		private System.Nullable<int> _Bank_ID;
+		
+		private int _Usr_Location;
+		
+		private System.Nullable<double> _Usr_EconomySkill;
+		
+		private int _User_ID;
+		
+		private string _Usr_TitleJob;
+		
+		private string _Usr_Name;
+		
+		private System.Nullable<int> _MnyTypeID;
+		
+		private System.Nullable<int> _MnyTypeCountryID;
+		
+		public View_UserInfo()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Compny_ID", DbType="Int NOT NULL")]
+		public int Compny_ID
+		{
+			get
+			{
+				return this._Compny_ID;
+			}
+			set
+			{
+				if ((this._Compny_ID != value))
+				{
+					this._Compny_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country_ID", DbType="Int NOT NULL")]
+		public int Country_ID
+		{
+			get
+			{
+				return this._Country_ID;
+			}
+			set
+			{
+				if ((this._Country_ID != value))
+				{
+					this._Country_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_WorkDaysInRow", DbType="Int")]
+		public System.Nullable<int> Usr_WorkDaysInRow
+		{
+			get
+			{
+				return this._Usr_WorkDaysInRow;
+			}
+			set
+			{
+				if ((this._Usr_WorkDaysInRow != value))
+				{
+					this._Usr_WorkDaysInRow = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Experience", DbType="Int")]
+		public System.Nullable<int> Usr_Experience
+		{
+			get
+			{
+				return this._Usr_Experience;
+			}
+			set
+			{
+				if ((this._Usr_Experience != value))
+				{
+					this._Usr_Experience = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company_Level", DbType="Int NOT NULL")]
+		public int Company_Level
+		{
+			get
+			{
+				return this._Company_Level;
+			}
+			set
+			{
+				if ((this._Company_Level != value))
+				{
+					this._Company_Level = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Salary", DbType="Money NOT NULL")]
+		public decimal Salary
+		{
+			get
+			{
+				return this._Salary;
+			}
+			set
+			{
+				if ((this._Salary != value))
+				{
+					this._Salary = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_ID", DbType="Int NOT NULL")]
+		public int Item_ID
+		{
+			get
+			{
+				return this._Item_ID;
+			}
+			set
+			{
+				if ((this._Item_ID != value))
+				{
+					this._Item_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_Quantity", DbType="Money")]
+		public System.Nullable<decimal> Bank_Quantity
+		{
+			get
+			{
+				return this._Bank_Quantity;
+			}
+			set
+			{
+				if ((this._Bank_Quantity != value))
+				{
+					this._Bank_Quantity = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mny_ID", DbType="Int")]
+		public System.Nullable<int> Mny_ID
+		{
+			get
+			{
+				return this._Mny_ID;
+			}
+			set
+			{
+				if ((this._Mny_ID != value))
+				{
+					this._Mny_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_ID", DbType="Int")]
+		public System.Nullable<int> Bank_ID
+		{
+			get
+			{
+				return this._Bank_ID;
+			}
+			set
+			{
+				if ((this._Bank_ID != value))
+				{
+					this._Bank_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int NOT NULL")]
+		public int Usr_Location
+		{
+			get
+			{
+				return this._Usr_Location;
+			}
+			set
+			{
+				if ((this._Usr_Location != value))
+				{
+					this._Usr_Location = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Float")]
+		public System.Nullable<double> Usr_EconomySkill
+		{
+			get
+			{
+				return this._Usr_EconomySkill;
+			}
+			set
+			{
+				if ((this._Usr_EconomySkill != value))
+				{
+					this._Usr_EconomySkill = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
+		public int User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					this._User_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TitleJob", DbType="NVarChar(50)")]
+		public string Usr_TitleJob
+		{
+			get
+			{
+				return this._Usr_TitleJob;
+			}
+			set
+			{
+				if ((this._Usr_TitleJob != value))
+				{
+					this._Usr_TitleJob = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Usr_Name
+		{
+			get
+			{
+				return this._Usr_Name;
+			}
+			set
+			{
+				if ((this._Usr_Name != value))
+				{
+					this._Usr_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MnyTypeID", DbType="Int")]
+		public System.Nullable<int> MnyTypeID
+		{
+			get
+			{
+				return this._MnyTypeID;
+			}
+			set
+			{
+				if ((this._MnyTypeID != value))
+				{
+					this._MnyTypeID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MnyTypeCountryID", DbType="Int")]
+		public System.Nullable<int> MnyTypeCountryID
+		{
+			get
+			{
+				return this._MnyTypeCountryID;
+			}
+			set
+			{
+				if ((this._MnyTypeCountryID != value))
+				{
+					this._MnyTypeCountryID = value;
 				}
 			}
 		}

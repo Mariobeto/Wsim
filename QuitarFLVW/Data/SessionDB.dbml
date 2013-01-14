@@ -119,4 +119,25 @@
       <Association Name="tbl_USER_tbl_Workday" Member="tbl_USER" ThisKey="User_ID" OtherKey="Usr_id" Type="tbl_USER" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.View_UserInfo" Member="View_UserInfos">
+    <Type Name="View_UserInfo">
+      <Column Name="Compny_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Country_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Usr_WorkDaysInRow" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_Experience" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Company_Level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Salary" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="Item_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Bank_Quantity" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Mny_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Bank_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Usr_Location" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Usr_EconomySkill" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Usr_TitleJob" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Usr_Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MnyTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MnyTypeCountryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>
