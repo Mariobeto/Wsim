@@ -22,7 +22,7 @@ namespace QuitarFLVW.Data
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="wsim")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Prueba")]
 	public partial class SessionDBDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -42,9 +42,6 @@ namespace QuitarFLVW.Data
     partial void Inserttbl_Inventory(tbl_Inventory instance);
     partial void Updatetbl_Inventory(tbl_Inventory instance);
     partial void Deletetbl_Inventory(tbl_Inventory instance);
-    partial void Inserttbl_Item(tbl_Item instance);
-    partial void Updatetbl_Item(tbl_Item instance);
-    partial void Deletetbl_Item(tbl_Item instance);
     partial void Inserttbl_Money_Type(tbl_Money_Type instance);
     partial void Updatetbl_Money_Type(tbl_Money_Type instance);
     partial void Deletetbl_Money_Type(tbl_Money_Type instance);
@@ -57,6 +54,9 @@ namespace QuitarFLVW.Data
     partial void Inserttbl_Workday(tbl_Workday instance);
     partial void Updatetbl_Workday(tbl_Workday instance);
     partial void Deletetbl_Workday(tbl_Workday instance);
+    partial void Inserttbl_Item(tbl_Item instance);
+    partial void Updatetbl_Item(tbl_Item instance);
+    partial void Deletetbl_Item(tbl_Item instance);
     partial void Inserttbl_USER(tbl_USER instance);
     partial void Updatetbl_USER(tbl_USER instance);
     partial void Deletetbl_USER(tbl_USER instance);
@@ -132,14 +132,6 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<tbl_Item> tbl_Items
-		{
-			get
-			{
-				return this.GetTable<tbl_Item>();
-			}
-		}
-		
 		public System.Data.Linq.Table<tbl_Money_Type> tbl_Money_Types
 		{
 			get
@@ -172,19 +164,27 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<tbl_USER> tbl_USERs
-		{
-			get
-			{
-				return this.GetTable<tbl_USER>();
-			}
-		}
-		
 		public System.Data.Linq.Table<View_UserInfo> View_UserInfos
 		{
 			get
 			{
 				return this.GetTable<View_UserInfo>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Item> tbl_Items
+		{
+			get
+			{
+				return this.GetTable<tbl_Item>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_USER> tbl_USERs
+		{
+			get
+			{
+				return this.GetTable<tbl_USER>();
 			}
 		}
 	}
@@ -1101,120 +1101,6 @@ namespace QuitarFLVW.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Items")]
-	public partial class tbl_Item : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Item_ID;
-		
-		private string _Item_Name;
-		
-		private EntitySet<tbl_Inventory> _tbl_Inventories;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnItem_IDChanging(int value);
-    partial void OnItem_IDChanged();
-    partial void OnItem_NameChanging(string value);
-    partial void OnItem_NameChanged();
-    #endregion
-		
-		public tbl_Item()
-		{
-			this._tbl_Inventories = new EntitySet<tbl_Inventory>(new Action<tbl_Inventory>(this.attach_tbl_Inventories), new Action<tbl_Inventory>(this.detach_tbl_Inventories));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Item_ID
-		{
-			get
-			{
-				return this._Item_ID;
-			}
-			set
-			{
-				if ((this._Item_ID != value))
-				{
-					this.OnItem_IDChanging(value);
-					this.SendPropertyChanging();
-					this._Item_ID = value;
-					this.SendPropertyChanged("Item_ID");
-					this.OnItem_IDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_Name", DbType="VarChar(50)")]
-		public string Item_Name
-		{
-			get
-			{
-				return this._Item_Name;
-			}
-			set
-			{
-				if ((this._Item_Name != value))
-				{
-					this.OnItem_NameChanging(value);
-					this.SendPropertyChanging();
-					this._Item_Name = value;
-					this.SendPropertyChanged("Item_Name");
-					this.OnItem_NameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Item_tbl_Inventory", Storage="_tbl_Inventories", ThisKey="Item_ID", OtherKey="Item_ID")]
-		public EntitySet<tbl_Inventory> tbl_Inventories
-		{
-			get
-			{
-				return this._tbl_Inventories;
-			}
-			set
-			{
-				this._tbl_Inventories.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_tbl_Inventories(tbl_Inventory entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Item = this;
-		}
-		
-		private void detach_tbl_Inventories(tbl_Inventory entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Item = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Money_Types")]
 	public partial class tbl_Money_Type : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1923,6 +1809,495 @@ namespace QuitarFLVW.Data
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.View_UserInfo")]
+	public partial class View_UserInfo
+	{
+		
+		private int _Compny_ID;
+		
+		private int _Country_ID;
+		
+		private System.Nullable<int> _Usr_WorkDaysInRow;
+		
+		private System.Nullable<int> _Usr_Experience;
+		
+		private int _Company_Level;
+		
+		private decimal _Salary;
+		
+		private int _ItemToProduceID;
+		
+		private string _ItemNameToProduce;
+		
+		private System.Nullable<decimal> _Bank_Quantity;
+		
+		private System.Nullable<int> _Mny_ID;
+		
+		private System.Nullable<int> _Bank_ID;
+		
+		private int _Usr_Location;
+		
+		private int _User_ID;
+		
+		private string _Usr_TitleJob;
+		
+		private string _Usr_Name;
+		
+		private System.Nullable<int> _MnyTypeID;
+		
+		private System.Nullable<int> _MnyTypeCountryID;
+		
+		private System.Nullable<int> _Usr_EconomySkill;
+		
+		private int _User_OwnerID;
+		
+		public View_UserInfo()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Compny_ID", DbType="Int NOT NULL")]
+		public int Compny_ID
+		{
+			get
+			{
+				return this._Compny_ID;
+			}
+			set
+			{
+				if ((this._Compny_ID != value))
+				{
+					this._Compny_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country_ID", DbType="Int NOT NULL")]
+		public int Country_ID
+		{
+			get
+			{
+				return this._Country_ID;
+			}
+			set
+			{
+				if ((this._Country_ID != value))
+				{
+					this._Country_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_WorkDaysInRow", DbType="Int")]
+		public System.Nullable<int> Usr_WorkDaysInRow
+		{
+			get
+			{
+				return this._Usr_WorkDaysInRow;
+			}
+			set
+			{
+				if ((this._Usr_WorkDaysInRow != value))
+				{
+					this._Usr_WorkDaysInRow = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Experience", DbType="Int")]
+		public System.Nullable<int> Usr_Experience
+		{
+			get
+			{
+				return this._Usr_Experience;
+			}
+			set
+			{
+				if ((this._Usr_Experience != value))
+				{
+					this._Usr_Experience = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company_Level", DbType="Int NOT NULL")]
+		public int Company_Level
+		{
+			get
+			{
+				return this._Company_Level;
+			}
+			set
+			{
+				if ((this._Company_Level != value))
+				{
+					this._Company_Level = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Salary", DbType="Money NOT NULL")]
+		public decimal Salary
+		{
+			get
+			{
+				return this._Salary;
+			}
+			set
+			{
+				if ((this._Salary != value))
+				{
+					this._Salary = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemToProduceID", DbType="Int NOT NULL")]
+		public int ItemToProduceID
+		{
+			get
+			{
+				return this._ItemToProduceID;
+			}
+			set
+			{
+				if ((this._ItemToProduceID != value))
+				{
+					this._ItemToProduceID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemNameToProduce", DbType="VarChar(50)")]
+		public string ItemNameToProduce
+		{
+			get
+			{
+				return this._ItemNameToProduce;
+			}
+			set
+			{
+				if ((this._ItemNameToProduce != value))
+				{
+					this._ItemNameToProduce = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_Quantity", DbType="Money")]
+		public System.Nullable<decimal> Bank_Quantity
+		{
+			get
+			{
+				return this._Bank_Quantity;
+			}
+			set
+			{
+				if ((this._Bank_Quantity != value))
+				{
+					this._Bank_Quantity = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mny_ID", DbType="Int")]
+		public System.Nullable<int> Mny_ID
+		{
+			get
+			{
+				return this._Mny_ID;
+			}
+			set
+			{
+				if ((this._Mny_ID != value))
+				{
+					this._Mny_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_ID", DbType="Int")]
+		public System.Nullable<int> Bank_ID
+		{
+			get
+			{
+				return this._Bank_ID;
+			}
+			set
+			{
+				if ((this._Bank_ID != value))
+				{
+					this._Bank_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int NOT NULL")]
+		public int Usr_Location
+		{
+			get
+			{
+				return this._Usr_Location;
+			}
+			set
+			{
+				if ((this._Usr_Location != value))
+				{
+					this._Usr_Location = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
+		public int User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					this._User_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TitleJob", DbType="NVarChar(50)")]
+		public string Usr_TitleJob
+		{
+			get
+			{
+				return this._Usr_TitleJob;
+			}
+			set
+			{
+				if ((this._Usr_TitleJob != value))
+				{
+					this._Usr_TitleJob = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Usr_Name
+		{
+			get
+			{
+				return this._Usr_Name;
+			}
+			set
+			{
+				if ((this._Usr_Name != value))
+				{
+					this._Usr_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MnyTypeID", DbType="Int")]
+		public System.Nullable<int> MnyTypeID
+		{
+			get
+			{
+				return this._MnyTypeID;
+			}
+			set
+			{
+				if ((this._MnyTypeID != value))
+				{
+					this._MnyTypeID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MnyTypeCountryID", DbType="Int")]
+		public System.Nullable<int> MnyTypeCountryID
+		{
+			get
+			{
+				return this._MnyTypeCountryID;
+			}
+			set
+			{
+				if ((this._MnyTypeCountryID != value))
+				{
+					this._MnyTypeCountryID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Int")]
+		public System.Nullable<int> Usr_EconomySkill
+		{
+			get
+			{
+				return this._Usr_EconomySkill;
+			}
+			set
+			{
+				if ((this._Usr_EconomySkill != value))
+				{
+					this._Usr_EconomySkill = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_OwnerID", DbType="Int NOT NULL")]
+		public int User_OwnerID
+		{
+			get
+			{
+				return this._User_OwnerID;
+			}
+			set
+			{
+				if ((this._User_OwnerID != value))
+				{
+					this._User_OwnerID = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Items")]
+	public partial class tbl_Item : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Item_ID;
+		
+		private string _Item_Name;
+		
+		private System.Nullable<int> _ItemIDRawProduce;
+		
+		private EntitySet<tbl_Inventory> _tbl_Inventories;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnItem_IDChanging(int value);
+    partial void OnItem_IDChanged();
+    partial void OnItem_NameChanging(string value);
+    partial void OnItem_NameChanged();
+    partial void OnItemIDRawProduceChanging(System.Nullable<int> value);
+    partial void OnItemIDRawProduceChanged();
+    #endregion
+		
+		public tbl_Item()
+		{
+			this._tbl_Inventories = new EntitySet<tbl_Inventory>(new Action<tbl_Inventory>(this.attach_tbl_Inventories), new Action<tbl_Inventory>(this.detach_tbl_Inventories));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Item_ID
+		{
+			get
+			{
+				return this._Item_ID;
+			}
+			set
+			{
+				if ((this._Item_ID != value))
+				{
+					this.OnItem_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Item_ID = value;
+					this.SendPropertyChanged("Item_ID");
+					this.OnItem_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_Name", DbType="VarChar(50)")]
+		public string Item_Name
+		{
+			get
+			{
+				return this._Item_Name;
+			}
+			set
+			{
+				if ((this._Item_Name != value))
+				{
+					this.OnItem_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Item_Name = value;
+					this.SendPropertyChanged("Item_Name");
+					this.OnItem_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemIDRawProduce", DbType="Int")]
+		public System.Nullable<int> ItemIDRawProduce
+		{
+			get
+			{
+				return this._ItemIDRawProduce;
+			}
+			set
+			{
+				if ((this._ItemIDRawProduce != value))
+				{
+					this.OnItemIDRawProduceChanging(value);
+					this.SendPropertyChanging();
+					this._ItemIDRawProduce = value;
+					this.SendPropertyChanged("ItemIDRawProduce");
+					this.OnItemIDRawProduceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Item_tbl_Inventory", Storage="_tbl_Inventories", ThisKey="Item_ID", OtherKey="Item_ID")]
+		public EntitySet<tbl_Inventory> tbl_Inventories
+		{
+			get
+			{
+				return this._tbl_Inventories;
+			}
+			set
+			{
+				this._tbl_Inventories.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Item = this;
+		}
+		
+		private void detach_tbl_Inventories(tbl_Inventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Item = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_USERS")]
 	public partial class tbl_USER : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1956,8 +2331,6 @@ namespace QuitarFLVW.Data
 		private System.Nullable<int> _Usr_FoodLimit;
 		
 		private System.Nullable<int> _Usr_GiftLimit;
-		
-		private System.Nullable<int> _Usr_TrainDaysInRow;
 		
 		private System.Nullable<int> _Usr_WorkDaysInRow;
 		
@@ -2007,8 +2380,6 @@ namespace QuitarFLVW.Data
     partial void OnUsr_FoodLimitChanged();
     partial void OnUsr_GiftLimitChanging(System.Nullable<int> value);
     partial void OnUsr_GiftLimitChanged();
-    partial void OnUsr_TrainDaysInRowChanging(System.Nullable<int> value);
-    partial void OnUsr_TrainDaysInRowChanged();
     partial void OnUsr_WorkDaysInRowChanging(System.Nullable<int> value);
     partial void OnUsr_WorkDaysInRowChanged();
     #endregion
@@ -2313,26 +2684,6 @@ namespace QuitarFLVW.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TrainDaysInRow", DbType="Int")]
-		public System.Nullable<int> Usr_TrainDaysInRow
-		{
-			get
-			{
-				return this._Usr_TrainDaysInRow;
-			}
-			set
-			{
-				if ((this._Usr_TrainDaysInRow != value))
-				{
-					this.OnUsr_TrainDaysInRowChanging(value);
-					this.SendPropertyChanging();
-					this._Usr_TrainDaysInRow = value;
-					this.SendPropertyChanged("Usr_TrainDaysInRow");
-					this.OnUsr_TrainDaysInRowChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_WorkDaysInRow", DbType="Int")]
 		public System.Nullable<int> Usr_WorkDaysInRow
 		{
@@ -2564,357 +2915,6 @@ namespace QuitarFLVW.Data
 		{
 			this.SendPropertyChanging();
 			entity.tbl_USER = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.View_UserInfo")]
-	public partial class View_UserInfo
-	{
-		
-		private int _Compny_ID;
-		
-		private int _Country_ID;
-		
-		private System.Nullable<int> _Usr_WorkDaysInRow;
-		
-		private System.Nullable<int> _Usr_Experience;
-		
-		private int _Company_Level;
-		
-		private decimal _Salary;
-		
-		private int _ItemToProduceID;
-		
-		private System.Nullable<decimal> _Bank_Quantity;
-		
-		private System.Nullable<int> _Mny_ID;
-		
-		private System.Nullable<int> _Bank_ID;
-		
-		private int _Usr_Location;
-		
-		private int _User_ID;
-		
-		private string _Usr_TitleJob;
-		
-		private string _Usr_Name;
-		
-		private System.Nullable<int> _MnyTypeID;
-		
-		private System.Nullable<int> _MnyTypeCountryID;
-		
-		private System.Nullable<int> _Usr_EconomySkill;
-		
-		private int _User_OwnerID;
-		
-		private System.Nullable<int> _ItemIDRawProduce;
-		
-		public View_UserInfo()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Compny_ID", DbType="Int NOT NULL")]
-		public int Compny_ID
-		{
-			get
-			{
-				return this._Compny_ID;
-			}
-			set
-			{
-				if ((this._Compny_ID != value))
-				{
-					this._Compny_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country_ID", DbType="Int NOT NULL")]
-		public int Country_ID
-		{
-			get
-			{
-				return this._Country_ID;
-			}
-			set
-			{
-				if ((this._Country_ID != value))
-				{
-					this._Country_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_WorkDaysInRow", DbType="Int")]
-		public System.Nullable<int> Usr_WorkDaysInRow
-		{
-			get
-			{
-				return this._Usr_WorkDaysInRow;
-			}
-			set
-			{
-				if ((this._Usr_WorkDaysInRow != value))
-				{
-					this._Usr_WorkDaysInRow = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Experience", DbType="Int")]
-		public System.Nullable<int> Usr_Experience
-		{
-			get
-			{
-				return this._Usr_Experience;
-			}
-			set
-			{
-				if ((this._Usr_Experience != value))
-				{
-					this._Usr_Experience = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company_Level", DbType="Int NOT NULL")]
-		public int Company_Level
-		{
-			get
-			{
-				return this._Company_Level;
-			}
-			set
-			{
-				if ((this._Company_Level != value))
-				{
-					this._Company_Level = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Salary", DbType="Money NOT NULL")]
-		public decimal Salary
-		{
-			get
-			{
-				return this._Salary;
-			}
-			set
-			{
-				if ((this._Salary != value))
-				{
-					this._Salary = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemToProduceID", DbType="Int NOT NULL")]
-		public int ItemToProduceID
-		{
-			get
-			{
-				return this._ItemToProduceID;
-			}
-			set
-			{
-				if ((this._ItemToProduceID != value))
-				{
-					this._ItemToProduceID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_Quantity", DbType="Money")]
-		public System.Nullable<decimal> Bank_Quantity
-		{
-			get
-			{
-				return this._Bank_Quantity;
-			}
-			set
-			{
-				if ((this._Bank_Quantity != value))
-				{
-					this._Bank_Quantity = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mny_ID", DbType="Int")]
-		public System.Nullable<int> Mny_ID
-		{
-			get
-			{
-				return this._Mny_ID;
-			}
-			set
-			{
-				if ((this._Mny_ID != value))
-				{
-					this._Mny_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bank_ID", DbType="Int")]
-		public System.Nullable<int> Bank_ID
-		{
-			get
-			{
-				return this._Bank_ID;
-			}
-			set
-			{
-				if ((this._Bank_ID != value))
-				{
-					this._Bank_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Location", DbType="Int NOT NULL")]
-		public int Usr_Location
-		{
-			get
-			{
-				return this._Usr_Location;
-			}
-			set
-			{
-				if ((this._Usr_Location != value))
-				{
-					this._Usr_Location = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int NOT NULL")]
-		public int User_ID
-		{
-			get
-			{
-				return this._User_ID;
-			}
-			set
-			{
-				if ((this._User_ID != value))
-				{
-					this._User_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_TitleJob", DbType="NVarChar(50)")]
-		public string Usr_TitleJob
-		{
-			get
-			{
-				return this._Usr_TitleJob;
-			}
-			set
-			{
-				if ((this._Usr_TitleJob != value))
-				{
-					this._Usr_TitleJob = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Usr_Name
-		{
-			get
-			{
-				return this._Usr_Name;
-			}
-			set
-			{
-				if ((this._Usr_Name != value))
-				{
-					this._Usr_Name = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MnyTypeID", DbType="Int")]
-		public System.Nullable<int> MnyTypeID
-		{
-			get
-			{
-				return this._MnyTypeID;
-			}
-			set
-			{
-				if ((this._MnyTypeID != value))
-				{
-					this._MnyTypeID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MnyTypeCountryID", DbType="Int")]
-		public System.Nullable<int> MnyTypeCountryID
-		{
-			get
-			{
-				return this._MnyTypeCountryID;
-			}
-			set
-			{
-				if ((this._MnyTypeCountryID != value))
-				{
-					this._MnyTypeCountryID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usr_EconomySkill", DbType="Int")]
-		public System.Nullable<int> Usr_EconomySkill
-		{
-			get
-			{
-				return this._Usr_EconomySkill;
-			}
-			set
-			{
-				if ((this._Usr_EconomySkill != value))
-				{
-					this._Usr_EconomySkill = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_OwnerID", DbType="Int NOT NULL")]
-		public int User_OwnerID
-		{
-			get
-			{
-				return this._User_OwnerID;
-			}
-			set
-			{
-				if ((this._User_OwnerID != value))
-				{
-					this._User_OwnerID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemIDRawProduce", DbType="Int")]
-		public System.Nullable<int> ItemIDRawProduce
-		{
-			get
-			{
-				return this._ItemIDRawProduce;
-			}
-			set
-			{
-				if ((this._ItemIDRawProduce != value))
-				{
-					this._ItemIDRawProduce = value;
-				}
-			}
 		}
 	}
 }

@@ -138,6 +138,9 @@
     <Content Include="Scripts\ui\jquery-ui-1.8.21.custom.min.js" />
     <Content Include="Scripts\ui\jquery.ui.dialog.js" />
     <Content Include="Servicios\ServiciosW.svc" />
+    <Content Include="Styles\images\bg-gradient-sand.png" />
+    <Content Include="Styles\images\bg-sand.png" />
+    <Content Include="Styles\images\login1.png" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -193,6 +196,7 @@
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Logic\VariablesSesion.cs" />
     <Compile Include="Login.Master.cs">
       <DependentUpon>Login.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

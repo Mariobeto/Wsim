@@ -3,20 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using QuitarFLVW.Data;
+using System.Web.SessionState;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace QuitarFLVW.Logic
 {
     public class Metodos
     {
-        public static bool DoMission()
+        private static string key = "M@RIOLLAVE1145";
+
+        private VariablesSesion varPrivadas;
+
+        public Metodos(HttpSessionState Session)
         {
+            varPrivadas = new VariablesSesion(Session);
+        }
+
+        public static bool DoMission(string usuario)
+        {
+
             var FechaHoy = DateTime.Now;
             SessionDBDataContext db = new SessionDBDataContext();
 
+            usuario = Desencriptar(usuario.Replace("Usuario=", ""));
+            int UsuarioID = 0;
             try
             {
+                UsuarioID = (from t in db.tbl_USERs
+                             where t.Usr_Name.Equals(usuario)
+                                           select t.Usr_id).Single();
+
                 var ConsultaSiYaEntreno = (from t in db.tbl_Trainings
-                                           where t.User_ID == 8
+                                           where t.User_ID == UsuarioID
                                            && t.Train_Date.Month == FechaHoy.Month
                                            && t.Train_Date.Day == FechaHoy.Day
                                            && t.Train_Date.Year == FechaHoy.Year
@@ -25,7 +44,7 @@ namespace QuitarFLVW.Logic
             }
             catch(Exception){}
             var PuntosGanados = (from u in db.tbl_USERs
-                                 where u.Usr_id == 8
+                                 where u.Usr_id == UsuarioID
                                      select u).ToList().Single();
             int totalSesiones = Convert.ToInt32(PuntosGanados.Usr_TotalTrainingSessions);
 
@@ -52,7 +71,7 @@ namespace QuitarFLVW.Logic
             PuntosGanados.Usr_Experience += 2;
 
             tbl_Training tra = new tbl_Training();
-            tra.User_ID = 8;
+            tra.User_ID = UsuarioID;
             tra.Train_Date = DateTime.Now;
 
             db.tbl_Trainings.InsertOnSubmit(tra);
@@ -60,15 +79,21 @@ namespace QuitarFLVW.Logic
             return true;
         }
 
-        public static string Work()
+        public static string Work(string usuario)
         {
             var FechaHoy = DateTime.Now;
             SessionDBDataContext dbWsim = new SessionDBDataContext();
 
+            usuario = Desencriptar(usuario.Replace("Usuario=", ""));
+            int UsuarioID = 0;
             try
             {
+                UsuarioID = (from t in dbWsim.tbl_USERs
+                             where t.Usr_Name.Equals(usuario)
+                             select t.Usr_id).Single();
+
                 var ConsultaSiYaTrabajo = (from t in dbWsim.tbl_Workdays
-                                           where t.User_ID == 6
+                                           where t.User_ID == UsuarioID
                                            && t.Workday_Date.Month == FechaHoy.Month
                                            && t.Workday_Date.Day == FechaHoy.Day
                                            && t.Workday_Date.Year == FechaHoy.Year
@@ -79,7 +104,7 @@ namespace QuitarFLVW.Logic
             
 
             var userInfo = (from t in dbWsim.View_UserInfos
-                                       where t.User_ID == 6
+                            where t.User_ID == UsuarioID
                                       select t).Single();
             int cantidadProducir = 0;
 
@@ -120,21 +145,25 @@ namespace QuitarFLVW.Logic
             //Se resta el raw de la tabla inventarios que se cambia por el item  a producir
             try
             {
+                var ItemIdRaw = (from r in dbWsim.tbl_Items
+                               where r.Item_ID == userInfo.ItemToProduceID
+                               select r.ItemIDRawProduce).Single();
+
                 var restRaw = (from r in dbWsim.tbl_Inventories
                                where r.User_ID == userInfo.User_OwnerID
-                               && r.Item_ID == userInfo.ItemIDRawProduce
+                               && r.Item_ID == ItemIdRaw
                                && r.Invtry_Item_Quality == userInfo.Company_Level
                                select r).Single();
-                if (restRaw.Invtry_Item_Quantity > cantidadProducir)
+                if (restRaw.Invtry_Item_Quantity >= cantidadProducir)
                     restRaw.Invtry_Item_Quantity -= cantidadProducir;
                 else//No tiene el raw necesario para producir el item
-                    return "No tiene suficiente material de construccion";
-
+                    return "The company doesnt have the suficient materials to produce " +userInfo.ItemNameToProduce;
+                
                 var produceItem = (from r in dbWsim.tbl_Inventories
-                               where r.User_ID == userInfo.User_OwnerID
-                               && r.Item_ID == userInfo.ItemToProduceID
-                               && r.Invtry_Item_Quality == userInfo.Company_Level
-                               select r).Single();
+                                   where r.User_ID == userInfo.User_OwnerID
+                                   && r.Item_ID == userInfo.ItemToProduceID
+                                   && r.Invtry_Item_Quality == userInfo.Company_Level
+                                   select r).Single();
                 produceItem.Invtry_Item_Quantity += cantidadProducir;
 
                 dbWsim.SubmitChanges();
@@ -194,7 +223,7 @@ namespace QuitarFLVW.Logic
             insertWorkDay.Workday_Date = FechaHoy;
 
 
-            int consultCuantasVecesTrabajado = (from t in dbWsim.tbl_Workdays
+            var consultCuantasVecesTrabajado = (from t in dbWsim.tbl_Workdays
                                                 where t.User_ID == userInfo.User_ID
                                                 select t).Count();
             switch (consultCuantasVecesTrabajado)
@@ -240,14 +269,145 @@ namespace QuitarFLVW.Logic
                     break;
             }
 
+            try
+            {
+                DateTime diaAyer = DateTime.Now.AddDays(-1);
+                var workingDaysInRow = (from t in dbWsim.tbl_Workdays
+                                        where t.User_ID == userInfo.User_ID
+                                        && t.Workday_Date.Day == diaAyer.Day
+                                        select t.Workday_Date).Single();
+                insertUsers.Usr_WorkDaysInRow++;
+
+                if (insertUsers.Usr_WorkDaysInRow == 30)
+                { 
+                
+                }
+            }
+            catch(Exception){}
             dbWsim.tbl_Workdays.InsertOnSubmit(insertWorkDay);
             dbWsim.SubmitChanges();
             return "Trabajo correctamente vuelva mañana para volver a trabajar";
         }
 
-        public static string Login()
+        public string sValidaLogin(string strUsuario, string strPWD)
         {
-            return null;
+            try
+            {
+                var dbWsim = new SessionDBDataContext();
+                var usr = (from u in dbWsim.tbl_USERs
+                           where u.Usr_Password.Equals(strPWD)
+                           && u.Usr_Name.Equals(strUsuario)
+                           select u).Single();
+
+                if (usr.Usr_Password == strPWD)
+                {
+                    varPrivadas.simUsrID = usr.Usr_id;
+                    varPrivadas.simUsuario = usr.Usr_Name;
+                    return "A";
+               
+                }
+                else
+                {
+                    varPrivadas.simUsrID = 0;
+                    return "P";
+                }
+            }
+            catch (Exception)
+            {
+                varPrivadas.simUsrID = 0;
+                return "U";
+            }
+        }
+
+        public HttpCookie generaCookie(string strUsuario)
+        {
+            HttpCookie myCookie = new HttpCookie("Acceso");
+            myCookie["Usuario"] = strUsuario;
+            myCookie.Expires = DateTime.Now.AddDays(7);
+            return myCookie;
+        }
+
+
+        public static string Encriptar(string texto)
+        {
+            //arreglo de bytes donde guardaremos la llave
+            byte[] keyArray;
+            //arreglo de bytes donde guardaremos el texto
+            //que vamos a encriptar
+            byte[] Arreglo_a_Cifrar =
+            UTF8Encoding.UTF8.GetBytes(texto);
+
+            //se utilizan las clases de encriptación
+            //provistas por el Framework
+            //Algoritmo MD5
+            MD5CryptoServiceProvider hashmd5 =
+            new MD5CryptoServiceProvider();
+            //se guarda la llave para que se le realice
+            //hashing
+            keyArray = hashmd5.ComputeHash(
+            UTF8Encoding.UTF8.GetBytes(key));
+
+            hashmd5.Clear();
+
+            //Algoritmo 3DAS
+            TripleDESCryptoServiceProvider tdes =
+            new TripleDESCryptoServiceProvider();
+
+            tdes.Key = keyArray;
+            tdes.Mode = CipherMode.ECB;
+            tdes.Padding = PaddingMode.PKCS7;
+
+            //se empieza con la transformación de la cadena
+            ICryptoTransform cTransform =
+            tdes.CreateEncryptor();
+
+            //arreglo de bytes donde se guarda la
+            //cadena cifrada
+            byte[] ArrayResultado =
+            cTransform.TransformFinalBlock(Arreglo_a_Cifrar,
+            0, Arreglo_a_Cifrar.Length);
+
+            tdes.Clear();
+
+            //se regresa el resultado en forma de una cadena
+            return Convert.ToBase64String(ArrayResultado,
+            0, ArrayResultado.Length);
+        }
+
+        public static string Desencriptar(string textoEncriptado)
+        {
+            byte[] keyArray;
+            //convierte el texto en una secuencia de bytes
+            byte[] Array_a_Descifrar = Convert.FromBase64String(textoEncriptado);
+
+            //se llama a las clases que tienen los algoritmos
+            //de encriptación se le aplica hashing
+            //algoritmo MD5
+            MD5CryptoServiceProvider hashmd5 =
+            new MD5CryptoServiceProvider();
+
+            keyArray = hashmd5.ComputeHash(
+            UTF8Encoding.UTF8.GetBytes(key));
+
+            hashmd5.Clear();
+
+            TripleDESCryptoServiceProvider tdes =
+            new TripleDESCryptoServiceProvider();
+
+            tdes.Key = keyArray;
+            tdes.Mode = CipherMode.ECB;
+            tdes.Padding = PaddingMode.PKCS7;
+
+            ICryptoTransform cTransform =
+            tdes.CreateDecryptor();
+
+            byte[] resultArray =
+            cTransform.TransformFinalBlock(Array_a_Descifrar,
+            0, Array_a_Descifrar.Length);
+
+            tdes.Clear();
+            //se regresa en forma de cadena
+            return UTF8Encoding.UTF8.GetString(resultArray);
         }
     }
 }

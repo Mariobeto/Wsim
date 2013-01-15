@@ -22,9 +22,9 @@ namespace QuitarFLVW
         //     and include the following line in the operation body:
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
         [OperationContract]
-        public bool DoMission()
+        public bool DoMission(string Usuario)
         {
-            bool YaRealizoMision = Metodos.DoMission();
+            bool YaRealizoMision = Metodos.DoMission(Usuario);
             if (YaRealizoMision)
                 return true;
             else
@@ -32,17 +32,10 @@ namespace QuitarFLVW
         }
 
         [OperationContract]
-        public string Work()
+        public string Work(string Usuario)
         {
-            string Trabajo = Metodos.Work();
+            string Trabajo = Metodos.Work(Usuario);
             return Trabajo;
-        }
-
-        [OperationContract]
-        public string Login()
-        {
-            string inicioSesion = Metodos.Login();
-            return inicioSesion;
         }
 
     }
