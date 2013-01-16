@@ -142,6 +142,7 @@
     <Content Include="Styles\images\bg-btn-blue.png" />
     <Content Include="Styles\images\bg-gradient-sand.png" />
     <Content Include="Styles\images\bg-sand.png" />
+    <Content Include="Styles\images\front-bg.gif" />
     <Content Include="Styles\images\login1.png" />
     <Content Include="Styles\images\messagebox_warning.png" />
     <Content Include="Styles\jquery.countdown.css" />

@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Login.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="QuitarFLVW.WebForm3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/css">
+        
        .page
        {
             border:5px solid #EC9F2A;
@@ -15,7 +16,13 @@
         
         body
         {   
-            background: url(../Styles/images/bg-gradient-sand.png) repeat-x 0 0,url(../Styles/images/bg-sand.png) repeat 0 0,#F5F1E8;
+            margin: 0;
+            padding: 0;
+            font: 13px/16px "Lucida Grande", Arial, Sans-serif;
+            color: #789;
+            background-color: #ddeef6;
+            background-image: url(../Styles/images/front-bg.gif);
+            background-repeat: repeat;
             
             }
         .Password
@@ -41,7 +48,7 @@
 	        margin: 0 auto 0 auto;
 	        margin-top: 100px;
 	       width: 370px;
-            height: 250px;
+            height: 260px;
         }
         
         .DatosLogin
@@ -108,9 +115,10 @@
          </asp:ScriptManager>
         <div class="Password">
             <div class="ImagenLogin">
-        
+                Logo aqui
             </div>
             <div class="DatosLogin">
+                
                 <br />
                 <table style="width: 390px">
                     <tr> 
