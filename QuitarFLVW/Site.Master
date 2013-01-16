@@ -9,6 +9,20 @@
      <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
          <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.ui/1.8.5/jquery-ui.min.js"></script>
          <script type="text/javascript" src="Scripts/Metodos.js"></script>
+         <script type="text/javascript" src="Scripts/jquery.countdown.js"></script>
+         <script type="text/javascript">
+             $(function () {
+                 var austDay = new Date();
+                 austDay = new Date(austDay.getFullYear(), 1 - 1, austDay.getDate() + 1);
+                 $('#defaultCountdown').countdown({ until: austDay, format: 'HMS' });
+                 $('#year').text(austDay.getFullYear());
+             });
+            </script>
+        <style type="text/css">
+            @import "Styles/jquery.countdown.css";
+
+            #defaultCountdown { width: 140px; height: 45px; }
+        </style>
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -17,24 +31,15 @@
     <div class="page">
         <div class="header">
             <div class="title">
-                <h1>
-                    My ASP.NET Application
-                </h1>
+               <h1> Wsim</h1>
             </div>
             <div class="loginDisplay">
-               <%-- <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
-                    <AnonymousTemplate>
-                        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
-                    </AnonymousTemplate>
-                    <LoggedInTemplate>
-                        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
-                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> ]
-                    </LoggedInTemplate>
-                </asp:LoginView>--%>
-                 Welcome commander
+                 Welcome 
+                 Commander
                     <span class="bold">
                         <asp:Label ID="lblComander" runat="server" Text="Label"></asp:Label>
                      </span>
+                
             </div>
             <div class="clear hideSkiplink">
                 <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
@@ -46,6 +51,8 @@
             </div>
         </div>
         <div class="main">
+            Day Change in:
+                <div class="bold" id="defaultCountdown"></div>
             <%--<asp:Repeater ID="Repeater1" runat="server">
                 <HeaderTemplate>
                 <table border="1">

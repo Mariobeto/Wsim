@@ -20,12 +20,28 @@
             }
         .Password
         {
-            background : white;
+            moz-border-radius-topleft: 5px;
+            -moz-border-radius-bottomleft: 5px;
+            -moz-border-radius-bottomright: 5px;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-bottom-left-radius: 5px;
+            -webkit-border-bottom-right-radius: 5px;
+            background-color: #ddeef6;
+            z-index: 100;
+            border: 1px transparent;
+            text-align: left;
+            padding: 12px;
+            top: 24.5px;
+            right: 0px;
+            margin-top: 5px;
+            margin-right: 0px;
+            color: #789;
+            font-size: 11px;
+            background-color: #ddeef6;
 	        margin: 0 auto 0 auto;
 	        margin-top: 100px;
-	        width:450px;
-	        height: 320px;
-	        border: 3px solid #F5F1E8;
+	       width: 370px;
+            height: 250px;
         }
         
         .DatosLogin
@@ -43,6 +59,29 @@
         .style3
         {
             width: 107px;
+        }
+        
+        .signin_submit     {
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            background: #39d url('../Styles/images/bg-btn-blue.png') repeat-x scroll 0 0;
+            border: 1px solid #39D;
+            color: #fff;
+            text-shadow: 0 -1px 0 #39d;
+            padding: 4px 10px 5px;
+            font-size: 11px;
+            margin: 0 5px 0 0;
+            font-weight: bold;
+        }
+        
+        .signin_submit:hover, .signin_submit:focus {
+	        background-position:0 -5px;
+	        cursor:pointer;
+        }
+        .forgot_username_link
+        {
+            color: #27B!important;
+            text-decoration: underline;
         }
         </style>
          <script type="text/javascript">
@@ -75,24 +114,35 @@
                 <br />
                 <table style="width: 390px">
                     <tr> 
-                        <td style="text-align:left" class="style1"> Usuario:
+                        <td style="text-align:left" class="style1"> Username:
                         </td>
                         <td style="text-align:left">
                             <asp:TextBox ID="txtUsuario" runat="server" Font-Size="10pt" Width="180px" ValidationGroup="login"></asp:TextBox> 
                         </td>
                     </tr>
                     <tr> 
-                        <td style="text-align:left" class="style1"> Contraseña:
+                        <td style="text-align:left" class="style1"> Password:
                         </td>
                         <td style="text-align:left"> 
                             <asp:TextBox ID="txtPWD" runat="server" Font-Size="10pt" TextMode="Password" 
                                 Width="180px" ValidationGroup="login"></asp:TextBox> 
                         </td>
                     </tr>
+                    
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <a class="forgot_username_link" href="">Forgot your password?</a>
+                        </td>
+                        <td>
+                            <a class="forgot_username_link" href="">Sign UP</a>
+                        </td>
+                    </tr>
                 </table>
                 <br />
                 <div class="BotonLogin">
-                    <asp:Button ID="Button1" runat="server" Text="Aceptar" onclick="Button1_Click"/>
+                    <asp:Button ID="Button1" CssClass="signin_submit" runat="server" Text="Sign in" onclick="Button1_Click"/>
                 </div>
             </div>
         </div>

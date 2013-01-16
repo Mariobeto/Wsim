@@ -18,7 +18,7 @@ namespace QuitarFLVW
                 if (Request.Cookies["Acceso"] != null)
                 {
                     if (Request.Cookies["Acceso"]["Usuario"] != null)
-                    { userSettings = Request.Cookies["Acceso"]["Usuario"]; }
+                      userSettings = Request.Cookies["Acceso"]["Usuario"];                 
                 }
                 else
                     Response.Redirect("Login.aspx");

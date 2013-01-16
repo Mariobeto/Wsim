@@ -1,4 +1,5 @@
-﻿function ShowMessageBox(Title, Message) {
+﻿
+function ShowMessageBox(Title, Message) {
     $("#DivMessage").html(Message);
     $("#DivMessage").dialog({ modal: true, title: Title });
 }
@@ -44,16 +45,16 @@ function getCookie(c_name) {
 }
 
 function ajaxErrorCallBack(args) {
-    ShowMessageBox("Wsim Error","Hubo un error favor de reportarlo a soporte tecnico si este persiste");
+    ShowMessageBox("Wsim Error","There was an error please report to admin if this persist");
 
 }
 
 function fuTrainOnSuccessCallBack(args) {
     if (args) {
-        ShowMessageBox("Wsim", "Entreno correctamente vuelva mañana para volver a entrenar");
+        ShowMessageBox("Wsim", "You Succesfully work commander you are more strong now!");
     }
     else {
-        ShowMessageBox("Wsim", "Ya entreno por el dia de hoy comandante, se puede entrenar 1 vez cada 24 horas");
+        ShowMessageBox("Wsim", "You already work for this day commander,you have to whait until the day change to work again");
     }
 }
 

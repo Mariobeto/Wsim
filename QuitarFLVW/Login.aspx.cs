@@ -18,13 +18,10 @@ namespace QuitarFLVW
             Metodos = new Metodos(Session);
 
             if (IsPostBack)
-            {
                 if (!ClientScript.IsStartupScriptRegistered("abrir"))
-                {
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "abrir", "abrirValidadores();", true);
-                }
-            }
 
+            //Lo manda al default si la cookie existe
             //if (Request.Cookies["Acceso"] != null)
             //    Response.Redirect("Default.aspx");
         }

@@ -292,3 +292,16 @@ div.accountInfo
     text-align: right;
     padding-right: 10px;
 }
+
+#signin_submit {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #39d url('images/bg-btn-blue.png') repeat-x scroll 0 0;
+    border: 1px solid #39D;
+    color: #fff;
+    text-shadow: 0 -1px 0 #39d;
+    padding: 4px 10px 5px;
+    font-size: 11px;
+    margin: 0 5px 0 0;
+    font-weight: bold;
+}
