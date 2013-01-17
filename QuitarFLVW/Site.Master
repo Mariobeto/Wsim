@@ -37,6 +37,28 @@
                      </span>
             </div>
             <div class="clear hideSkiplink">
+                <ul class="topnav">
+                    <li><a href="~/Default.aspx">Home</a></li>
+                    <li>
+                        <a href="#">My places</a>
+                        <ul class="subnav">
+                            <li><a href="#">Work</a></li>
+                            <li><a href="#">Train</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Resources</a>
+                        <ul class="subnav">
+                            <li><a href="#">Sub Nav Link</a></li>
+                            <li><a href="#">Sub Nav Link</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Advertise</a></li>
+                    <li><a href="#">Submit</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+                
                 <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
                     <Items>
                         <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
