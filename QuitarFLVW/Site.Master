@@ -11,9 +11,10 @@
          <script type="text/javascript" src="Scripts/Metodos.js"></script>
          <script type="text/javascript" src="Scripts/jquery.countdown.js"></script>
          <script type="text/javascript">
+            
              $(function () {
                  var austDay = new Date();
-                 austDay = new Date(austDay.getFullYear(), 1 - 1, austDay.getDate() + 1);
+                 austDay = new Date(austDay.getFullYear(), austDay.getMonth(), austDay.getDate() + 1);
                  $('#defaultCountdown').countdown({ until: austDay, format: 'HMS' });
                  $('#year').text(austDay.getFullYear());
              });
@@ -21,8 +22,34 @@
         <style type="text/css">
             @import "Styles/jquery.countdown.css";
 
-            #defaultCountdown { width: 140px; height: 45px; }
+            #defaultCountdown  
+            {
+                width: 137px;
+                height: 45px;
+                margin-left: 800px;
+            }
         </style>
+        <script type="text/javascript" >
+            $(document).ready(function () {
+
+                $("ul.subnav").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled (Adds empty span tag after ul.subnav*)  
+
+                $("ul.topnav li a").hover(function () { //When trigger is clicked...  
+                    //Following events are applied to the subnav itself (moving subnav up and down)  
+                    $(this).parent().find("ul.subnav").slideDown('fast').show(); //Drop down the subnav on click  
+                    $(this).parent().hover(function () {
+                    }, function () {
+                        $(this).parent().find("ul.subnav").slideUp('slow'); //When the mouse hovers out of the subnav, move it back up  
+                    });
+                    //Following events are applied to the trigger (Hover events for the trigger)  
+                }).hover(function () {
+                    $(this).addClass("subhover"); //On hover over, add class "subhover"  
+                }, function () {  //On Hover Out  
+                    $(this).removeClass("subhover"); //On hover out, remove class "subhover"  
+                });
+
+            });
+        </script>
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -39,35 +66,48 @@
                     <span class="bold">
                         <asp:Label ID="lblComander" runat="server" Text="Label"></asp:Label>
                      </span>
-                
+                <div>
+                    <div  style="margin-right:60px"> Day Change:</div>
+                    <div class="bold" id="defaultCountdown"></div>
+                </div>
             </div>
             <div class="clear hideSkiplink">
-                <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
-                    <Items>
-                        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
-                        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About"/>
-                    </Items>
-                </asp:Menu>
+              <ul class="topnav">
+                <li><a href="Default.aspx">Home</a></li>
+                <li>
+                    <a class="subnav">Places</a>
+                    <ul class="subnav">
+                        <li><a href="Work.aspx">Work</a></li>
+                        <li><a href="Train.aspx">Train</a></li>
+                        <li><a href="#">Companies(Coming soon)</a></li>
+                        <li><a href="#">NewsPaper(Coming soon)</a></li>
+                        <li><a href="#">Party(Coming soon)</a></li>
+
+                    </ul>
+                </li>
+     
+                <li><a href="#">About Us</a></li>
+
+                <li><a href="#">Advertise</a></li>
+                <li><a href="#">Submit</a></li>
+                <li><a href="#">Contact Us</a></li>
+
+                <li>
+                    <a href="#">More</a>
+                    <ul class="subnav">
+                        <li><a href="#">Follow Us on Twitter</a></li>
+                        <li><a href="#">Like Us on Facebook</a></li>
+                        <li><a href="#">Subscribe on Youtube</a></li>
+                    </ul>
+                </li>
+
+            </ul>  
+
+                    
             </div>
         </div>
         <div class="main">
-            Day Change in:
-                <div class="bold" id="defaultCountdown"></div>
-            <%--<asp:Repeater ID="Repeater1" runat="server">
-                <HeaderTemplate>
-                <table border="1">
-                <tr>
-                <td><b>Company</b></td>
-                <td><b>Symbol</b></td>
-                </tr>
-                </HeaderTemplate>
-
-                <ItemTemplate>
-                <tr>
-                <td> <%# DataBinder.Eval(Container.DataItem, "Name") %> </td>
-                <td> <%# DataBinder.Eval(Container.DataItem, "Ticker") %> </td>
-                </tr>
-            </asp:Repeater>--%>
+            
             <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
         </div>
         <div class="clear">

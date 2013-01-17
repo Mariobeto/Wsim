@@ -139,12 +139,16 @@
     <Content Include="Scripts\ui\jquery-ui-1.8.21.custom.min.js" />
     <Content Include="Scripts\ui\jquery.ui.dialog.js" />
     <Content Include="Servicios\ServiciosW.svc" />
+    <Content Include="Styles\front.css" />
     <Content Include="Styles\images\bg-btn-blue.png" />
     <Content Include="Styles\images\bg-gradient-sand.png" />
     <Content Include="Styles\images\bg-sand.png" />
     <Content Include="Styles\images\front-bg.gif" />
-    <Content Include="Styles\images\login1.png" />
     <Content Include="Styles\images\messagebox_warning.png" />
+    <Content Include="Styles\images\signin-nav-bg-hover-ie.png" />
+    <Content Include="Styles\images\signin-nav-bg-ie.png" />
+    <Content Include="Styles\images\toggle_down_light.png" />
+    <Content Include="Styles\images\toggle_up_dark.png" />
     <Content Include="Styles\jquery.countdown.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />

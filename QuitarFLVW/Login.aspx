@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Login.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="QuitarFLVW.WebForm3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style type="text/css">
+  <%--  <style type="text/css">
         
        .page
        {
@@ -14,17 +14,6 @@
 	        height: 55px;
         }
         
-        body
-        {   
-            margin: 0;
-            padding: 0;
-            font: 13px/16px "Lucida Grande", Arial, Sans-serif;
-            color: #789;
-            background-color: #ddeef6;
-            background-image: url(../Styles/images/front-bg.gif);
-            background-repeat: repeat;
-            
-            }
         .Password
         {
             moz-border-radius-topleft: 5px;
@@ -90,8 +79,9 @@
             color: #27B!important;
             text-decoration: underline;
         }
-        </style>
-         <script type="text/javascript">
+        </style>--%>
+        <link rel="stylesheet" href="../Styles/front.css" />
+        <%-- <script type="text/javascript">
              function abrirValidadores() {
                  $("#divValidadores").dialog({
                      height: 180,
@@ -102,7 +92,8 @@
                      title: 'Wsim'
                  });
              }
-    </script>
+    </script>--%>
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server">
@@ -113,52 +104,51 @@
                 <asp:ScriptReference Path="~/Scripts/Metodos.js" />
             </Scripts>
          </asp:ScriptManager>
-        <div class="Password">
-            <div class="ImagenLogin">
-                Logo aqui
-            </div>
-            <div class="DatosLogin">
-                
-                <br />
-                <table style="width: 390px">
-                    <tr> 
-                        <td style="text-align:left" class="style1"> Username:
-                        </td>
-                        <td style="text-align:left">
+         <div id="container">
+            <div id="topnav" class="topnav"> Have an account? <a href="" class="signin"><span>Sign in</span></a> </div>
+                <fieldset id="signin_menu">
+                        Username
                             <asp:TextBox ID="txtUsuario" runat="server" Font-Size="10pt" Width="180px" ValidationGroup="login"></asp:TextBox> 
-                        </td>
-                    </tr>
-                    <tr> 
-                        <td style="text-align:left" class="style1"> Password:
-                        </td>
-                        <td style="text-align:left"> 
+                    
+                         Password
                             <asp:TextBox ID="txtPWD" runat="server" Font-Size="10pt" TextMode="Password" 
                                 Width="180px" ValidationGroup="login"></asp:TextBox> 
-                        </td>
-                    </tr>
+                        
                     
-                </table>
-                <table>
-                    <tr>
-                        <td>
                             <a class="forgot_username_link" href="">Forgot your password?</a>
-                        </td>
-                        <td>
-                            <a class="forgot_username_link" href="">Sign UP</a>
-                        </td>
-                    </tr>
-                </table>
-                <br />
-                <div class="BotonLogin">
-                    <asp:Button ID="Button1" CssClass="signin_submit" runat="server" Text="Sign in" onclick="Button1_Click"/>
-                </div>
+                        
+                <p class="remember">
+                    <asp:Button ID="signin_submit" CssClass="signin_submit" runat="server" Text="Sign in" onclick="Button1_Click"/>
+                </p>
+                 </ fieldset>
             </div>
-        </div>
-        <br />
+
+
         <div id="divValidadores" style="color: red;">
             <asp:CustomValidator ID="cvValidar" runat="server"></asp:CustomValidator>
             <asp:ValidationSummary ID="vsMensajes" runat="server" 
                 DisplayMode="SingleParagraph" />
 
         </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $(".signin").click(function (e) {
+                    e.preventDefault();
+                    $("fieldset#signin_menu").toggle();
+                    $(".signin").toggleClass("menu-open");
+                });
+
+                $("fieldset#signin_menu").mouseup(function () {
+                    return false
+                });
+                $(document).mouseup(function (e) {
+                    if ($(e.target).parent("a.signin").length == 0) {
+                        $(".signin").removeClass("menu-open");
+                        $("fieldset#signin_menu").hide();
+                    }
+                });
+
+            });
+</script>
 </asp:Content>
